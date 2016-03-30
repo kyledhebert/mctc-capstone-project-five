@@ -1,11 +1,15 @@
 package models;
 
+import play.data.validation.Constraints;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Volunteer {
 
+    @Constraints.Required
     public String idn;
+    @Constraints.Required
     public String name;
 
     public Volunteer() {}
