@@ -9,8 +9,8 @@ import play.mvc.Result;
 
 import java.util.List;
 
-import views.html.VolunteerController.details;
-import views.html.VolunteerController.volunteers;
+import views.html.volunteers.details;
+import views.html.volunteers.volunteers;
 
 import javax.inject.Inject;
 

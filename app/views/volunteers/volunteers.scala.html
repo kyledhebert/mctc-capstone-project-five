@@ -26,9 +26,6 @@
         <tbody>
             @for(volunteer <- volunteers) {
                 <tr>
-                    <td><a href="@routes.VolunteerController.()">
-                        @volunteer.idn
-                    </a></td>
                     <td><a href="@routes.VolunteerController.details(volunteer.idn)">
                     @volunteer.idn</a></td>
                     <td><a href="@routes.VolunteerController.details(volunteer.idn)">
@@ -45,5 +42,5 @@
     </table>
 
     <a href="@routes.VolunteerController.newVolunteer()" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus"></span>New Product</a>
+        <span class="glyphicon glyphicon-plus"></span>New Volunteer</a>
 }
