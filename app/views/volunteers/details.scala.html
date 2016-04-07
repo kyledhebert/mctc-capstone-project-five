@@ -5,9 +5,11 @@
 @main("Volunteer form") {
     <h1>Volunteer Form</h1>
     @b3.form(routes.VolunteerController.save) {
-            <legend>Volunteer (@volunteerForm("name").valueOr("New"))</legend>
-            @b3.text(volunteerForm("idn"), '_label -> "ID Number")
-            @b3.text(volunteerForm("name"), '_label -> "Name")
+            <legend>Volunteer (@volunteerForm("firstName").valueOr("New"))</legend>
+            @b3.text(volunteerForm("id"), '_label -> "ID")
+            @b3.text(volunteerForm("firstName"), '_label -> "First Name")
+            @b3.text(volunteerForm("lastName"), '_label -> "Last Name")
+            @b3.text(volunteerForm("email"), '_label -> "Email")
         <input type="submit" class="btn btn-primary" value="Save">
         <a class="btn btn-default">Cancel</a>
     }

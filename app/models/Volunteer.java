@@ -1,36 +1,61 @@
 package models;
 
+
 import play.data.validation.Constraints;
+
+import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Volunteer {
 
-    @Constraints.Required
-    public String idn;
-    @Constraints.Required
-    public String name;
+    @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    public int id;
 
+    @Constraints.Required
+    @Column
+    public String firstName;
+
+    @Constraints.Required
+    @Column
+    public String lastName;
+
+    //@Constraints.Email
+    @Constraints.Required
+    @Column
+    public String email;
+
+    // default constructor for JPA
     public Volunteer() {}
 
-    public Volunteer(String idn, String name) {
-        this.idn = idn;
-        this.name = name;
+    public Volunteer(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
     }
 
     @Override
     public String toString() {
-        return String.format("%s - %s", idn, name);
+        return "Volunteer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
+
+
 
     public static List<Volunteer> getVolunteerList() {
         return new ArrayList<Volunteer>(volunteerList);
     }
 
-    public static Volunteer getVolunteerByIdn(String idn) {
+    public static Volunteer getVolunteerById(int id) {
         for (Volunteer volunteer : volunteerList) {
-            if (volunteer.idn.equals(idn)) {
+            if (volunteer.id == id) {
                 return volunteer;
             }
         }
@@ -40,7 +65,7 @@ public class Volunteer {
     public static List<Volunteer> getVolunteerListByName(String searchTerm) {
         final List<Volunteer> results = new ArrayList<Volunteer>();
         for (Volunteer volunteer : results) {
-            if (volunteer.name.toLowerCase().contains(searchTerm.toLowerCase())) {
+            if (volunteer.firstName.toLowerCase().contains(searchTerm.toLowerCase())) {
                 results.add(volunteer);
             }
         }
@@ -53,7 +78,7 @@ public class Volunteer {
     }
 
     public void save() {
-        volunteerList.remove(getVolunteerByIdn(this.idn));
+        volunteerList.remove(getVolunteerById(this.id));
         volunteerList.add(this);
     }
 
@@ -63,10 +88,9 @@ public class Volunteer {
 
     static {
         volunteerList = new ArrayList<Volunteer>();
-        volunteerList.add(new Volunteer("111111", "Volunteer 1"));
-        volunteerList.add(new Volunteer("222222", "Volunteer 2"));
-        volunteerList.add(new Volunteer("333333", "Volunteer 3"));
-        volunteerList.add(new Volunteer("444444", "Volunteer 4"));
+        volunteerList.add(new Volunteer("Sam", "Barlow", "sam@barlow.com"));
+        volunteerList.add(new Volunteer("Liz", "England", "liz@england.com"));
+        volunteerList.add(new Volunteer("Rami", "Ismael", "rami@vlambeer.com"));
     }
 
 }
