@@ -2,25 +2,14 @@
 
 @main("Volunteer List") {
     <h2>All Volunteers</h2>
-    @*this javascript is necessary to call a DELETE operation*@
-    <script>
-        function del(urlToDelete) {
-            $.ajax({
-                url: urlToDelete,
-                type: 'DELETE',
-                success: function(results) {
-                    // refresh the page
-                    location.reload()
-                }
-            });
-        }
-    </script>
-
+    <a href="@routes.VolunteerController.newVolunteer()" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus"></span> New Volunteer</a>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Email</th>
             </tr>
         </thead>
         <tbody>
@@ -32,17 +21,13 @@
                     @volunteer.lastName</a></td>
                     <td><a href="@routes.VolunteerController.details(volunteer.id)">
                     @volunteer.email</a></td>
-                    <td>
-                        <a href="@routes.VolunteerController.details(volunteer.id)">
+                    <td><a href="@routes.VolunteerController.details(volunteer.id)">
                         <span class="glyphicon glyphicon-pencil"></span></a>
-                        <a href="('@routes.VolunteerController.delete(volunteer.id)">
-                            <span class="glyphicon glyphicon-trash"></span></a>
+                        <a href="@routes.VolunteerController.delete(volunteer.id)">
+                        <span class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
-    <a href="@routes.VolunteerController.newVolunteer()" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus"></span>New Volunteer</a>
 }

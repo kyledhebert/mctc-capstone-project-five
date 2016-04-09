@@ -2,7 +2,8 @@ package controllers;
 
 
 import models.Volunteer;
-import org.hibernate.SessionFactory;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -30,9 +31,28 @@ public class VolunteerController extends Controller {
         this.formFactory = formFactory;
     }
 
-
+    // lists all volunteers in the database
+    @Transactional
+    @SuppressWarnings("unchecked")
     public Result list() {
-        List<Volunteer> volunteerList = Volunteer.getVolunteerList();
+
+        EntityManager entityManager = jpaApi.em();
+
+//        // create some Volunteer entries for testing
+//        Volunteer volunteer1 = new Volunteer("Dan", "Geasling", "dan@geasling.com");
+//        Volunteer volunteer2 = new Volunteer("Liz", "England", "lizard@england.com");
+//        Volunteer volunteer3 = new Volunteer("Rami", "Ismael", "rami@vlambeer.com");
+//        save(volunteer1);
+//        save(volunteer2);
+//        save(volunteer3);
+
+        //get a list of volunteers to display
+        Session session = (Session) entityManager.getDelegate();
+
+        Criteria criteria = session.createCriteria(Volunteer.class);
+
+        List<Volunteer> volunteerList = criteria.list();
+
         return ok(volunteers.render(volunteerList));
     }
 
@@ -44,18 +64,32 @@ public class VolunteerController extends Controller {
     }
 
     // renders a form for displaying and editing a volunteers details
+    @Transactional
     public Result details(int id) {
-        final Volunteer volunteer = Volunteer.getVolunteerById(id);
+        final Volunteer volunteer = getVolunteerById(id);
         if (volunteer == null) {
             return notFound(String.format("Volunteer %d does not exist.", id));
         }
 
         Form<Volunteer> volunteerForm = formFactory.form(Volunteer.class);
-        Form<Volunteer> filedForm = volunteerForm.fill(volunteer);
-        return ok(details.render(filedForm));
+        Form<Volunteer> filledForm = volunteerForm.fill(volunteer);
+        return ok(details.render(filledForm));
     }
 
-    // saves a new volunteer to the database
+
+    public Volunteer getVolunteerById(int id) {
+        EntityManager entityManager = jpaApi.em();
+
+        Session session = (Session) entityManager.getDelegate();
+
+        // gets the Volunteer from the database or null if not found
+        Volunteer volunteer = session.get(Volunteer.class, id);
+
+        return volunteer;
+    }
+
+
+    // saves a new volunteer to the database using the form data
     @Transactional
     public Result save() {
         Form<Volunteer> volunteerForm = formFactory.form(Volunteer.class);
@@ -68,22 +102,33 @@ public class VolunteerController extends Controller {
         // a new volunteer is created by the form entries
         Volunteer volunteer = boundForm.get();
 
-        EntityManager entityManager = jpaApi.em();
-
-        // and saved to the db via Hibernate
-        entityManager.persist(volunteer);
-
+        save(volunteer);
 
         flash("success", String.format("Successfully added volunteer %s", volunteer));
         return redirect(routes.VolunteerController.list());
     }
 
+    // called when adding a new or updating an existing Volunteer
+    public void save(Volunteer volunteer) {
+        EntityManager entityManager = jpaApi.em();
+        entityManager.persist(volunteer);
+    }
+
+    @Transactional
     public Result delete(int id) {
-        final Volunteer volunteer = Volunteer.getVolunteerById(id);
+        final Volunteer volunteer = getVolunteerById(id);
         if (volunteer == null) {
             return notFound(String.format("Volunteer %d does not exist.", id));
         }
-        Volunteer.removeVolunteer(volunteer);
+
+        EntityManager entityManager = jpaApi.em();
+        Session session = (Session) entityManager.getDelegate();
+        session.delete(volunteer);
+
+        flash("success", String.format("Successfully deleted volunteer %s", volunteer.firstName));
+
         return redirect(routes.VolunteerController.list());
     }
+
+
 }
