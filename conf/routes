@@ -4,15 +4,20 @@
 
 
 GET     /                                   controllers.HomeController.index
+
 GET     /volunteers/                        controllers.VolunteerController.list()
 GET     /volunteers/new                     controllers.VolunteerController.newVolunteer()
 GET     /volunteers/:id                     controllers.VolunteerController.details(id: Integer)
 POST    /volunteers/                        controllers.VolunteerController.save()
-POST    /volunteers/update/         controllers.VolunteerController.update(id: Integer)
+POST    /volunteers/update/                 controllers.VolunteerController.update(id: Integer)
 GET     /volunteers/delete/:id              controllers.VolunteerController.delete(id: Integer)
 
-
-
+GET     /assignments/                       controllers.AssignmentController.list()
+GET     /assignments/new                    controllers.AssignmentController.newAssignment()
+GET     /assignmnents/:id                   controllers.AssignmentController.details(id: Integer)
+POST    /assignments/                       controllers.AssignmentController.save()
+POST    /assignments/update/                controllers.AssignmentController.update(id: Integer)
+GET     /assignments/delete/:id             controllers.AssignmentController.delete(id: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
