@@ -1,0 +1,13 @@
+@(assignmentForm: Form[Assignment])
+@import b3.vertical.fieldConstructor
+
+
+@main("Assignment form") {
+  <h1>New Assignment Form</h1>
+  @b3.form(routes.AssignmentController.save) {
+    <legend>Assignment (@assignmentForm("assignmentName").valueOr("New"))</legend>
+    @b3.text(assignmentForm("assignmentName"), '_label -> "Assignment Name")
+    <input type="submit" class="btn btn-primary" value="Save">
+
+  }
+}
