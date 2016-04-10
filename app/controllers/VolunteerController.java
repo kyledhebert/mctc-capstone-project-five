@@ -14,6 +14,7 @@ import play.mvc.Result;
 import java.util.List;
 
 import views.html.volunteers.details;
+import views.html.volunteers.newvolunteer;
 import views.html.volunteers.volunteers;
 
 import javax.inject.Inject;
@@ -38,14 +39,6 @@ public class VolunteerController extends Controller {
 
         EntityManager entityManager = jpaApi.em();
 
-//        // create some Volunteer entries for testing
-//        Volunteer volunteer1 = new Volunteer("Dan", "Geasling", "dan@geasling.com");
-//        Volunteer volunteer2 = new Volunteer("Liz", "England", "lizard@england.com");
-//        Volunteer volunteer3 = new Volunteer("Rami", "Ismael", "rami@vlambeer.com");
-//        save(volunteer1);
-//        save(volunteer2);
-//        save(volunteer3);
-
         //get a list of volunteers to display
         Session session = (Session) entityManager.getDelegate();
 
@@ -60,7 +53,7 @@ public class VolunteerController extends Controller {
     public Result newVolunteer() {
         Form<Volunteer> volunteerForm = formFactory.form(Volunteer.class);
 
-        return ok(details.render(volunteerForm));
+        return ok(newvolunteer.render(volunteerForm));
     }
 
     // renders a form for displaying and editing a volunteers details
@@ -73,7 +66,7 @@ public class VolunteerController extends Controller {
 
         Form<Volunteer> volunteerForm = formFactory.form(Volunteer.class);
         Form<Volunteer> filledForm = volunteerForm.fill(volunteer);
-        return ok(details.render(filledForm));
+        return ok(details.render(volunteer, filledForm));
     }
 
 
@@ -96,23 +89,54 @@ public class VolunteerController extends Controller {
         Form<Volunteer> boundForm = volunteerForm.bindFromRequest();
         if (boundForm.hasErrors()) {
             flash("error", "Please correct the form below.");
-            return badRequest(details.render(boundForm));
+            return badRequest(newvolunteer.render(boundForm));
         }
 
         // a new volunteer is created by the form entries
         Volunteer volunteer = boundForm.get();
 
-        save(volunteer);
+        // use a Hibernate session to save the volunteer
+        EntityManager entityManager  = jpaApi.em();
+        Session session = (Session) entityManager.getDelegate();
+        session.save(volunteer);
 
         flash("success", String.format("Successfully added volunteer %s", volunteer));
         return redirect(routes.VolunteerController.list());
     }
 
-    // called when adding a new or updating an existing Volunteer
-    public void save(Volunteer volunteer) {
-        EntityManager entityManager = jpaApi.em();
-        entityManager.persist(volunteer);
+    @Transactional
+    public Result update(int id) {
+        Volunteer volunteer = getVolunteerById(id);
+        if (volunteer == null) {
+            return notFound(String.format("Volunteer %d does not exist.", id));
+        }
+
+        //get the new data from the form
+        Form<Volunteer> volunteerForm = formFactory.form(Volunteer.class);
+        Form<Volunteer> boundForm = volunteerForm.bindFromRequest();
+        if (boundForm.hasErrors()) {
+            flash("error", "Please correct the form below.");
+            return badRequest(details.render(volunteer,boundForm));
+        }
+
+        //update the volunteer (probably a better way to do this)
+        Volunteer updatedVolunteer = boundForm.get();
+
+        volunteer.setFirstName(updatedVolunteer.getFirstName());
+        volunteer.setLastName(updatedVolunteer.getLastName());
+        volunteer.setEmail(updatedVolunteer.getEmail());
+
+        // use a Hibernate session to update the volunteer
+        EntityManager entityManager  = jpaApi.em();
+        Session session = (Session) entityManager.getDelegate();
+        session.update(volunteer);
+
+        flash("success", String.format("Successfully updated volunteer %s", volunteer));
+        return redirect(routes.VolunteerController.list());
+
+
     }
+
 
     @Transactional
     public Result delete(int id) {

@@ -1,10 +1,10 @@
-@(volunteer: Volunteer, volunteerForm: Form[Volunteer])
+@(volunteerForm: Form[Volunteer])
 @import b3.vertical.fieldConstructor
 
 
 @main("Volunteer form") {
-    <h1>Volunteer Details Form</h1>
-    @b3.form(routes.VolunteerController.update(volunteer.id)) {
+    <h1>New Volunteer Form</h1>
+    @b3.form(routes.VolunteerController.save) {
             <legend>Volunteer (@volunteerForm("firstName").valueOr("New"))</legend>
             @b3.text(volunteerForm("firstName"), '_label -> "First Name")
             @b3.text(volunteerForm("lastName"), '_label -> "Last Name")

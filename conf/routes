@@ -9,6 +9,7 @@ GET     /volunteers/                        controllers.VolunteerController.list
 GET     /volunteers/new                     controllers.VolunteerController.newVolunteer()
 GET     /volunteers/:id                     controllers.VolunteerController.details(id: Integer)
 POST    /volunteers/                        controllers.VolunteerController.save()
+POST    /volunteers/update/         controllers.VolunteerController.update(id: Integer)
 GET     /volunteers/delete/:id              controllers.VolunteerController.delete(id: Integer)
 GET     /count                              controllers.CountController.count
 # An example controller showing how to write asynchronous code
