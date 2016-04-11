@@ -4,6 +4,8 @@ package controllers;
 import models.Volunteer;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -32,17 +34,35 @@ public class VolunteerController extends Controller {
         this.formFactory = formFactory;
     }
 
+    // returns a Hibernate session for database transactions
+    private Session getSession() {
+        EntityManager entityManager  = jpaApi.em();
+        return (Session) entityManager.getDelegate();
+    }
+
     // lists all volunteers in the database
     @Transactional
     @SuppressWarnings("unchecked")
     public Result list() {
 
-        EntityManager entityManager = jpaApi.em();
-
-        //get a list of volunteers to display
-        Session session = (Session) entityManager.getDelegate();
+        Session session = getSession();
 
         Criteria criteria = session.createCriteria(Volunteer.class);
+
+        List<Volunteer> volunteerList = criteria.list();
+
+        return ok(volunteers.render(volunteerList));
+    }
+
+    // browses volunteers by first letter of last name
+    @Transactional
+    public Result browse(Character letter) {
+
+        Session session = getSession();
+
+        Criteria criteria = session.createCriteria(Volunteer.class)
+                .add( Restrictions.like("lastName", Character.toUpperCase(letter) +"%"))
+                .addOrder( Order.asc("lastName"));
 
         List<Volunteer> volunteerList = criteria.list();
 
@@ -71,9 +91,7 @@ public class VolunteerController extends Controller {
 
 
     public Volunteer getVolunteerById(int id) {
-        EntityManager entityManager = jpaApi.em();
-
-        Session session = (Session) entityManager.getDelegate();
+        Session session = getSession();
 
         // gets the Volunteer from the database or null if not found
         Volunteer volunteer = session.get(Volunteer.class, id);
@@ -96,13 +114,13 @@ public class VolunteerController extends Controller {
         Volunteer volunteer = boundForm.get();
 
         // use a Hibernate session to save the volunteer
-        EntityManager entityManager  = jpaApi.em();
-        Session session = (Session) entityManager.getDelegate();
+        Session session = getSession();
         session.save(volunteer);
 
         flash("success", String.format("Successfully added volunteer %s", volunteer));
         return redirect(routes.VolunteerController.list());
     }
+
 
     @Transactional
     public Result update(int id) {
@@ -127,8 +145,7 @@ public class VolunteerController extends Controller {
         volunteer.setEmail(updatedVolunteer.getEmail());
 
         // use a Hibernate session to update the volunteer
-        EntityManager entityManager  = jpaApi.em();
-        Session session = (Session) entityManager.getDelegate();
+        Session session = getSession();
         session.update(volunteer);
 
         flash("success", String.format("Successfully updated volunteer %s", volunteer));
@@ -145,8 +162,7 @@ public class VolunteerController extends Controller {
             return notFound(String.format("Volunteer %d does not exist.", id));
         }
 
-        EntityManager entityManager = jpaApi.em();
-        Session session = (Session) entityManager.getDelegate();
+        Session session = getSession();
         session.delete(volunteer);
 
         flash("success", String.format("Successfully deleted volunteer %s", volunteer.firstName));
