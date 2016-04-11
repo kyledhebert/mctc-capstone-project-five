@@ -2,8 +2,11 @@
 
 @main("Volunteer List") {
     <h2>All Volunteers</h2>
-    <a href="@routes.VolunteerController.newVolunteer()" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus"></span> New Volunteer</a>
+    @for(letter <- "abcdefghijklmnopqrstuvwxyz") {
+        <a href="@routes.VolunteerController.browse(letter)">@letter.toUpper</a>
+    }
+    <a href="@routes.VolunteerController.list()">All</a>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -30,4 +33,6 @@
             }
         </tbody>
     </table>
+    <a href="@routes.VolunteerController.newVolunteer()" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus"></span> New Volunteer</a>
 }
