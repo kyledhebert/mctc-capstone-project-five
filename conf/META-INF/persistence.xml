@@ -8,6 +8,7 @@
         <non-jta-data-source>DefaultDS</non-jta-data-source>
 
         <class>models.Volunteer</class>
+        <class>models.Assignment</class>
 
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update" />
