@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
   javaJpa,
   evolutions,
   "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final",
-  "com.adrianhurt" %%  "play-bootstrap" % "1.1-P25-B3-SNAPSHOT"
+  "com.adrianhurt" %%  "play-bootstrap" % "1.0-P25-B3"
 )
 
 routesGenerator := InjectedRoutesGenerator
