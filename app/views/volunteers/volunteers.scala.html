@@ -1,4 +1,6 @@
-@(volunteers: List[Volunteer])
+@(volunteers: List[Volunteer], searchForm: DynamicForm)
+@import b3.inline.fieldConstructor
+
 
 @main("Volunteer List") {
     <h2>All Volunteers</h2>
@@ -33,6 +35,22 @@
             }
         </tbody>
     </table>
-    <a href="@routes.VolunteerController.newVolunteer()" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus"></span> New Volunteer</a>
+    <div class="form-group">
+        <h3>Find</h3>
+        <p class="help-block">Search within volunteer records.</p>
+        <p class="help-block"> Enter either a first or last name.</p>
+    @b3.form(routes.VolunteerController.searchFirstName()) {
+        @b3.text(searchForm("firstName"), '_label -> "First Name")
+        @b3.submit('class -> "btn btn-default") { Search }
+    }
+    @b3.form(routes.VolunteerController.searchLastName()) {
+        @b3.text(searchForm("lastName"), '_label -> "Last Name")
+        @b3.submit('class -> "btn btn-default") { Search}
+    }
+    </div>
+
+
+    <a href="@routes.VolunteerController.newVolunteer()" class="btn btn-primary" >
+        <span class="glyphicon glyphicon-plus" ></span> New Volunteer</a>
+
 }
