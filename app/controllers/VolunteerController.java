@@ -188,7 +188,7 @@ public class VolunteerController extends Controller {
         Session session = getSession();
 
         Criteria criteria = session.createCriteria(Volunteer.class)
-                .add( Restrictions.like("firstName", firstName))
+                .add( Restrictions.ilike("firstName", firstName))
                 .addOrder( Order.asc("lastName"));
 
         List<Volunteer> volunteerList = criteria.list();
@@ -209,7 +209,7 @@ public class VolunteerController extends Controller {
         Session session = getSession();
 
         Criteria criteria = session.createCriteria(Volunteer.class)
-                .add( Restrictions.like("lastName", lastName))
+                .add( Restrictions.ilike("lastName", lastName))
                 .addOrder( Order.asc("firstName"));
 
         List<Volunteer> volunteerList = criteria.list();
