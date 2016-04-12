@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -51,11 +52,15 @@ public class VolunteerController extends Controller {
 
         List<Volunteer> volunteerList = criteria.list();
 
-        return ok(volunteers.render(volunteerList));
+        // also need to pass the dynamic form for rendering
+        DynamicForm searchForm = formFactory.form();
+
+        return ok(volunteers.render(volunteerList, searchForm));
     }
 
     // browses volunteers by first letter of last name
     @Transactional
+    @SuppressWarnings("unchecked")
     public Result browse(Character letter) {
 
         Session session = getSession();
@@ -66,7 +71,10 @@ public class VolunteerController extends Controller {
 
         List<Volunteer> volunteerList = criteria.list();
 
-        return ok(volunteers.render(volunteerList));
+        // also need to pass the dynamic form for rendering
+        DynamicForm searchForm = formFactory.form();
+
+        return ok(volunteers.render(volunteerList, searchForm));
     }
 
     // renders a form for capturing a new volunteer
@@ -169,6 +177,49 @@ public class VolunteerController extends Controller {
 
         return redirect(routes.VolunteerController.list());
     }
+
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public Result searchFirstName() {
+        // get the data from the form
+        DynamicForm formData = formFactory.form().bindFromRequest();
+        String firstName = formData.get("firstName");
+
+        Session session = getSession();
+
+        Criteria criteria = session.createCriteria(Volunteer.class)
+                .add( Restrictions.like("firstName", firstName))
+                .addOrder( Order.asc("lastName"));
+
+        List<Volunteer> volunteerList = criteria.list();
+
+        // also need to pass the dynamic form for rendering
+        DynamicForm searchForm = formFactory.form();
+
+        return ok(volunteers.render(volunteerList, searchForm));
+    }
+
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public Result searchLastName(){
+        // get the data from the form
+        DynamicForm formData = formFactory.form().bindFromRequest();
+        String lastName = formData.get("lastName");
+
+        Session session = getSession();
+
+        Criteria criteria = session.createCriteria(Volunteer.class)
+                .add( Restrictions.like("lastName", lastName))
+                .addOrder( Order.asc("firstName"));
+
+        List<Volunteer> volunteerList = criteria.list();
+
+        // also need to pass the dynamic form for rendering
+        DynamicForm searchForm = formFactory.form();
+
+        return ok(volunteers.render(volunteerList, searchForm));
+    }
+
 
 
 }

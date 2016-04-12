@@ -12,6 +12,8 @@ GET     /volunteers/:id                     controllers.VolunteerController.deta
 POST    /volunteers/                        controllers.VolunteerController.save()
 POST    /volunteers/update/                 controllers.VolunteerController.update(id: Integer)
 GET     /volunteers/delete/:id              controllers.VolunteerController.delete(id: Integer)
+GET     /volunteers/search1/                controllers.VolunteerController.searchFirstName()
+GET     /volunteers/search2/                controllers.VolunteerController.searchLastName()
 
 GET     /assignments/                       controllers.AssignmentController.list()
 GET     /assignments/new                    controllers.AssignmentController.newAssignment()
