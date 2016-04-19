@@ -150,7 +150,14 @@ public class VolunteerController extends Controller {
 
         volunteer.setFirstName(updatedVolunteer.getFirstName());
         volunteer.setLastName(updatedVolunteer.getLastName());
+        volunteer.setStatus(updatedVolunteer.getStatus());
         volunteer.setEmail(updatedVolunteer.getEmail());
+        volunteer.setAddress1(updatedVolunteer.getAddress1());
+        volunteer.setAddress2(updatedVolunteer.getAddress2());
+        volunteer.setCity(updatedVolunteer.getCity());
+        volunteer.setState(updatedVolunteer.getState());
+        volunteer.setZipCode(updatedVolunteer.getZipCode());
+
 
         // use a Hibernate session to update the volunteer
         Session session = getSession();

@@ -1,15 +1,23 @@
 @(volunteerForm: Form[Volunteer])
-@import b3.vertical.fieldConstructor
-
+@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+@statuses =@{Seq("A"->"Active", "I"->"Inactive")}
 
 @main("Volunteer form") {
     <h1>New Volunteer Form</h1>
-    @b3.form(routes.VolunteerController.save) {
-            <legend>Volunteer (@volunteerForm("firstName").valueOr("New"))</legend>
+        <legend>Volunteer (@volunteerForm("firstName").valueOr("New"))</legend>
+        @b3.form(routes.VolunteerController.save()) {
             @b3.text(volunteerForm("firstName"), '_label -> "First Name")
             @b3.text(volunteerForm("lastName"), '_label -> "Last Name")
-            @b3.text(volunteerForm("email"), '_label -> "Email")
-        <input type="submit" class="btn btn-primary" value="Save">
-
-    }
+            @b3.select( volunteerForm("status"), options = statuses, '_label -> "Select a status" )
+            @b3.text(volunteerForm("email"), '_label -> "Ema    il")
+            @b3.text(volunteerForm("phoneNumber"), '_label -> "Phone Number")
+            @b3.text(volunteerForm("address1"), '_label -> "Address 1")
+            @b3.text(volunteerForm("address2"), '_label -> "Address 2")
+            @b3.text(volunteerForm("city"), '_label -> "City")
+            @b3.text(volunteerForm("state"), '_label -> "State")
+            @b3.text(volunteerForm("zipCode"), '_label -> "Zipcode")
+            @b3.submit('class -> "btn btn-primary") { Save }
+        }
 }
+
+
