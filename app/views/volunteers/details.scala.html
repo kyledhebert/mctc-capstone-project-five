@@ -1,11 +1,11 @@
 @(volunteer: Volunteer, volunteerForm: Form[Volunteer])
-@import b3.vertical.fieldConstructor
+@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
 @statuses =@{Seq("A"->"Active", "I"->"Inactive")}
 
 
 @main("Volunteer form") {
     <h1>Volunteer Details Form</h1>
-    <legend>Volunteer (@volunteerForm("firstName").valueOr("New"))</legend>
+    <legend>Volunteer @volunteerForm("firstName").value @volunteerForm("lastName").value()</legend>
     @b3.form(routes.VolunteerController.update(volunteer.id)) {
         @b3.text(volunteerForm("firstName"), '_label -> "First Name")
         @b3.text(volunteerForm("lastName"), '_label -> "Last Name")

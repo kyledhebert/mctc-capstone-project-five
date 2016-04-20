@@ -4,7 +4,7 @@
 
 @main("Volunteer form") {
     <h1>New Volunteer Form</h1>
-        <legend>Volunteer (@volunteerForm("firstName").valueOr("New"))</legend>
+        <legend>New Volunteer</legend>
         @b3.form(routes.VolunteerController.save()) {
             @b3.text(volunteerForm("firstName"), '_label -> "First Name")
             @b3.text(volunteerForm("lastName"), '_label -> "Last Name")
