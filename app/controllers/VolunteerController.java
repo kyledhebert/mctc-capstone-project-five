@@ -41,6 +41,17 @@ public class VolunteerController extends Controller {
         return (Session) entityManager.getDelegate();
     }
 
+    // builder for creating Volunteer objects
+    // helps with non-required fields
+    private Volunteer buildVolunteer(Volunteer volunteer) {
+        return new Volunteer.VolunteerBuilder(volunteer.getFirstName(), volunteer.getLastName(), volunteer.getStatus(), volunteer.getAddress1(), volunteer.getCity(), volunteer.getState(), volunteer.getZipCode())
+                .withPhone(volunteer.getPhoneNumber())
+                .withEmail(volunteer.getEmail())
+                .withAddress2(volunteer.getAddress2())
+                .build();
+    }
+
+
     // lists all volunteers in the database
     @Transactional
     @SuppressWarnings("unchecked")
@@ -121,13 +132,18 @@ public class VolunteerController extends Controller {
         // a new volunteer is created by the form entries
         Volunteer volunteer = boundForm.get();
 
+        // use VolunteerBuilder to handle empty, non-required fields
+        Volunteer volunteer1 = buildVolunteer(volunteer);
+
+
         // use a Hibernate session to save the volunteer
         Session session = getSession();
-        session.save(volunteer);
+        session.save(volunteer1);
 
         flash("success", String.format("Successfully added volunteer %s", volunteer));
         return redirect(routes.VolunteerController.list());
     }
+
 
 
     @Transactional
@@ -150,7 +166,14 @@ public class VolunteerController extends Controller {
 
         volunteer.setFirstName(updatedVolunteer.getFirstName());
         volunteer.setLastName(updatedVolunteer.getLastName());
+        volunteer.setStatus(updatedVolunteer.getStatus());
         volunteer.setEmail(updatedVolunteer.getEmail());
+        volunteer.setAddress1(updatedVolunteer.getAddress1());
+        volunteer.setAddress2(updatedVolunteer.getAddress2());
+        volunteer.setCity(updatedVolunteer.getCity());
+        volunteer.setState(updatedVolunteer.getState());
+        volunteer.setZipCode(updatedVolunteer.getZipCode());
+
 
         // use a Hibernate session to update the volunteer
         Session session = getSession();
