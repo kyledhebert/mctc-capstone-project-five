@@ -2,6 +2,7 @@ package controllers;
 
 
 import models.Assignment;
+import models.Location;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import play.data.Form;
@@ -25,12 +26,15 @@ public class AssignmentController extends Controller {
 
     private FormFactory formFactory;
     private JPAApi jpaApi;
+    private LocationController locationController;
 
     // inject the JPA API and FormFactory so they can be used globally
     @Inject
-    public AssignmentController(JPAApi jpaApi, FormFactory formFactory) {
+    public AssignmentController(JPAApi jpaApi, FormFactory formFactory,
+                                LocationController locationController) {
         this.jpaApi = jpaApi;
         this.formFactory = formFactory;
+        this.locationController = locationController;
     }
 
     // returns a Hibernate session for database Transactions
@@ -39,7 +43,7 @@ public class AssignmentController extends Controller {
         return (Session) entityManager.getDelegate();
     }
 
-    // list all the assignments in the database
+    // list all the locations and assignments in the database
     @Transactional
     @SuppressWarnings("unchecked")
     public Result list() {
@@ -50,7 +54,10 @@ public class AssignmentController extends Controller {
 
         List<Assignment> assignmentList = criteria.list();
 
-        return ok(assignments.render(assignmentList));
+        // use the locationController to get a list of locations
+        List<Location> locationList = locationController.list();
+
+        return ok(assignments.render(assignmentList, locationList));
 
     }
 

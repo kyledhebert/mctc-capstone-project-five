@@ -123,11 +123,10 @@ public class Location {
         private String state;
         private String zipCode;
 
-        public LocationBuilder(String name, String address1, String address2, String city, String state,
+        public LocationBuilder(String name, String address1, String city, String state,
                                String zipCode) {
             this.name = name;
             this.address1 = address1;
-            this.address2 = address2;
             this.city = city;
             this.state = state;
             this.zipCode = zipCode;
