@@ -4,6 +4,7 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,9 +19,8 @@ public class Assignment {
     @Column
     public String assignmentName;
 
-    @ManyToOne
-    @JoinColumn
-    Location location;
+    @OneToMany(mappedBy = "location")
+    public List<LocationAssignment> locationAssignments;
 
 
     // default constructor for JPA
@@ -53,4 +53,11 @@ public class Assignment {
         this.assignmentName = activityName;
     }
 
+    public List<LocationAssignment> getLocationAssignments() {
+        return locationAssignments;
+    }
+
+    public void setLocationAssignments(List<LocationAssignment> locationAssignments) {
+        this.locationAssignments = locationAssignments;
+    }
 }

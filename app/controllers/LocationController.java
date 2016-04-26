@@ -119,7 +119,7 @@ public class LocationController  extends Controller {
 
         flash("success", String.format("Successfully added location %s", location1));
 
-        return redirect(routes.AssignmentController.list());
+        return redirect(routes.LocationController.list());
     }
 
 
@@ -154,7 +154,7 @@ public class LocationController  extends Controller {
         session.update(location);
 
         flash("success", String.format("Successfully updated location %s", location));
-        return redirect(routes.AssignmentController.list());
+        return redirect(routes.LocationController.list());
 
     }
 
@@ -163,14 +163,14 @@ public class LocationController  extends Controller {
     public Result delete(int id) {
         final Location location = getLocationById(id);
         if (location == null) {
-            return notFound(String.format("Location %d deos not exist.", id));
+            return notFound(String.format("Location %d does not exist.", id));
         }
 
         Session session = getSession();
         session.delete(location);
 
         flash("success", String.format("Successfully deleted location %s", location));
-        return redirect(routes.AssignmentController.list());
+        return redirect(routes.LocationController.list());
 
     }
 
