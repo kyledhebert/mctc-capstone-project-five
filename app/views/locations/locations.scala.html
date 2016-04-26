@@ -1,0 +1,41 @@
+@(locations: List[Location])
+
+@main("Location List") {
+    <h2>Locations</h2>
+    <a href ="@routes.LocationController.newLocation()" class="btn btn-primary">
+    <span class="glyphicon glyphicon-plus"></span>New Location</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Location</th>
+                <th>Street</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(location <- locations) {
+            <tr>
+                <td><a href="@routes.LocationController.details(location.id)">
+                @location.name
+                </a>
+                </td>
+                <td><a href="@routes.LocationController.details(location.id)">
+                @location.address1
+                </a>
+                </td>
+                <td><a href="@routes.LocationController.details(location.id)">
+                @location.city
+                </a>
+                </td>
+                <td><a href="@routes.LocationController.details(location.id)">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                    <a href="@routes.LocationController.delete(location.id)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

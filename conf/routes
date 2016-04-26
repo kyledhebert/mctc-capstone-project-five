@@ -22,5 +22,12 @@ POST    /assignments/                       controllers.AssignmentController.sav
 POST    /assignments/update/                controllers.AssignmentController.update(id: Integer)
 GET     /assignments/delete/:id             controllers.AssignmentController.delete(id: Integer)
 
+GET     /locations/                         controllers.LocationController.list()
+GET     /locations/new                      controllers.LocationController.newLocation()
+GET     /locations/:id                      controllers.LocationController.details(id: Integer)
+POST    /locations/                         controllers.LocationController.save()
+POST    /locations/update/                  controllers.LocationController.update(id: Integer)
+GET     /locations/delete/:id               controllers.LocationController.delete(id: Integer)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
