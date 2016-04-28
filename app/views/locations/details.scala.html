@@ -3,7 +3,7 @@
 
 
 @main("Location form") {
-    <h1>Location Details Form</h1>
+    <h1>Location Details</h1>
     <legend>@locationForm("name").value()</legend>
     @b3.form(routes.LocationController.update(location.id)) {
         @b3.text(locationForm("name"), '_label -> "Location Name")
@@ -15,11 +15,24 @@
         @b3.submit('class -> "btn btn-primary") { Save }
     }
 
-    <h2>Assignments</h2>
-    <a href="">New Assignment</a>
-    <table class="table table-striped">
-       <thead>
+    <h3>Assignments</h3>
+    @if(location.assignments.isEmpty) {
+        <p>There are no assignments for this location</p>
+    } else {
+        <table class="table table-striped">
+            <thead>
 
-       </thead>
-    </table>
+            </thead>
+            <tbody>
+                @for(assignment <- location.assignments) {
+                    <tr>
+                        <td>@assignment.getAssignment.assignmentName</td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    <a href="@routes.AssignmentController.newAssignment(location.id)">New Assignment</a>
+
+
 }

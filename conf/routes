@@ -16,9 +16,9 @@ GET     /volunteers/search1/                controllers.VolunteerController.sear
 GET     /volunteers/search2/                controllers.VolunteerController.searchLastName()
 
 GET     /assignments/                       controllers.AssignmentController.list()
-GET     /assignments/new                    controllers.AssignmentController.newAssignment()
+GET     /assignments/new                    controllers.AssignmentController.newAssignment(id: Integer)
 GET     /assignmnents/:id                   controllers.AssignmentController.details(id: Integer)
-POST    /assignments/                       controllers.AssignmentController.save()
+POST    /assignments/                       controllers.AssignmentController.save(id: Integer)
 POST    /assignments/update/                controllers.AssignmentController.update(id: Integer)
 GET     /assignments/delete/:id             controllers.AssignmentController.delete(id: Integer)
 

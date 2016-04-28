@@ -2,6 +2,8 @@ package controllers;
 
 
 import models.Assignment;
+import models.Location;
+import models.LocationAssignment;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import play.data.Form;
@@ -57,10 +59,13 @@ public class AssignmentController extends Controller {
     }
 
     // renders a form for capturing a new assignment
-    public Result newAssignment() {
+    public Result newAssignment(int locationId) {
+
         Form<Assignment> assignmentForm = formFactory.form(Assignment.class);
 
-        return ok(newassignment.render(assignmentForm));
+        // locationId gets passed so the assignment can be associated with
+        // the location on saving
+        return ok(newassignment.render(assignmentForm, locationId));
     }
 
     // renders a from for displaying and editing an assignment's details
@@ -89,20 +94,28 @@ public class AssignmentController extends Controller {
 
     // saves a new assignment to the database using the form data
     @Transactional
-    public Result save() {
+    public Result save(int locationId) {
         Form<Assignment> assignmentForm = formFactory.form(Assignment.class);
         Form<Assignment> boundForm = assignmentForm.bindFromRequest();
         if (boundForm.hasErrors()) {
             flash("error", "Please correct the form below");
-            return badRequest(newassignment.render(boundForm));
+            return badRequest(newassignment.render(boundForm, locationId));
         }
 
         // create a new assignment from the form entries
         Assignment assignment = boundForm.get();
 
-        // save the new assignment with Hibernate
+        // save the new Assignment and get its id
         Session session = getSession();
-        session.save(assignment);
+        int assignmentId = (int)session.save(assignment);
+
+        // create a new location assignment
+        LocationAssignment locationAssignment = new LocationAssignment();
+        locationAssignment.location =  session.get(Location.class, locationId);
+        locationAssignment.assignment = session.get(Assignment.class, assignmentId);
+
+        // and save it
+        session.save(locationAssignment);
 
         flash("success", String.format("Successfully added assignment %s", assignment));
 
