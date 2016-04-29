@@ -27,6 +27,8 @@
                 @for(assignment <- location.assignments) {
                     <tr>
                         <td>@assignment.getAssignment.assignmentName</td>
+                        <td><a href="@routes.AssignmentController.delete(assignment.getAssignment.id)">
+                            <span class="glyphicon glyphicon-trash"></span></a> </td>
                     </tr>
                 }
             }

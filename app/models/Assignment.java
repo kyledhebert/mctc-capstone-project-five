@@ -1,8 +1,11 @@
 package models;
 
+import org.hibernate.annotations.*;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,8 +22,8 @@ public class Assignment {
     @Column
     public String assignmentName;
 
-    @OneToMany(mappedBy = "location")
-    public List<LocationAssignment> locationAssignments;
+    @OneToMany(mappedBy = "assignment", orphanRemoval = true)
+    private List<LocationAssignment> locationAssignments;
 
 
     // default constructor for JPA
