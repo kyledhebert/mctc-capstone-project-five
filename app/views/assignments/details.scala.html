@@ -1,13 +1,42 @@
 @(assignment: Assignment, assignmentForm: Form[Assignment])
-@import b3.vertical.fieldConstructor
+    @import b3.vertical.fieldConstructor
 
 
-@main("Assignment Details") {
-  <h1>Assignment Details Form</h1>
-  @b3.form(routes.AssignmentController.update(assignment.id)) {
-    <legend>Assignment (@assignmentForm("assignmentName").valueOr("New"))</legend>
-    @b3.text(assignmentForm("assignmentName"), '_label -> "Assignment Name")
-    <input type="submit" class="btn btn-primary" value="Save">
+    @main("Assignment Details") {
+        <h1>Assignment Details</h1>
+        @b3.form(routes.AssignmentController.update(assignment.getId)) {
+            <legend>Assignment @assignmentForm("assignmentName").valueOr("New")</legend>
+            @b3.text(assignmentForm("assignmentName"), '_label -> "Assignment Name")
+            <input type="submit" class="btn btn-primary" value="Save">
 
-  }
-}
+        }
+
+        <h3>Volunteers</h3>
+        @if(assignment.getVolunteers.isEmpty) {
+            <p> There are no volunteers assigned to this assignment</p>
+        } else {
+            <table class="table table-striped">
+                <thead></thead>
+                <tbody>
+                    @for(volunteer <- assignment.getVolunteers) {
+                        <tr>
+                            <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                            @volunteer.getFirstName</a></td>
+                            <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                            @volunteer.getLastName</a></td>
+                            <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                            @volunteer.getEmail</a></td>
+                            <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                                <span class="glyphicon glyphicon-pencil"></span></a>
+                                <a href="@routes.VolunteerController.delete(volunteer.getId)">
+                                    <span class="glyphicon glyphicon-trash"></span></a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        }
+
+
+    }

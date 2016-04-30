@@ -10,56 +10,67 @@ public class Volunteer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int id;
+    private int id;
 
     @Constraints.Required
     @Constraints.MaxLength(50)
     @Column
-    public String firstName;
+    private String firstName;
 
     @Constraints.Required
     @Constraints.MaxLength(50)
     @Column
-    public String lastName;
+    private String lastName;
 
     @Constraints.Required
     @Constraints.MaxLength(50)
     @Column
-    public String city;
+    private String city;
 
     @Constraints.Required
     @Column
-    public String status;
+    private String status;
 
     @Constraints.Required
     @Constraints.MaxLength(250)
     @Column
-    public String address1;
+    private String address1;
 
     @Constraints.MaxLength(250)
     @Column
-    public String address2;
+    private String address2;
 
     @Constraints.Required
     @Constraints.MaxLength(2)
     @Column
-    public String state;
+    private String state;
 
     @Constraints.Required
     @Constraints.MaxLength(5)
     @Column
-    public String zipCode;
+    private String zipCode;
 
     @Column
-    public String phoneNumber;
+    private String phoneNumber;
 
     @Constraints.Email
     @Column
-    public String email;
+    private String email;
+
+    @ManyToOne
+    private Assignment assignment;
 
     // default constructor for JPA
     public Volunteer() {}
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -139,6 +150,14 @@ public class Volunteer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Assignment getAssignment() {
+        return assignment;
+    }
+
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
     }
 
     public Volunteer(VolunteerBuilder builder) {

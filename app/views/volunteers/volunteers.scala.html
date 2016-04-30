@@ -20,15 +20,15 @@
         <tbody>
             @for(volunteer <- volunteers) {
                 <tr>
-                    <td><a href="@routes.VolunteerController.details(volunteer.id)">
-                    @volunteer.firstName</a></td>
-                    <td><a href="@routes.VolunteerController.details(volunteer.id)">
-                    @volunteer.lastName</a></td>
-                    <td><a href="@routes.VolunteerController.details(volunteer.id)">
-                    @volunteer.email</a></td>
-                    <td><a href="@routes.VolunteerController.details(volunteer.id)">
+                    <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                    @volunteer.getFirstName</a></td>
+                    <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                    @volunteer.getLastName</a></td>
+                    <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                    @volunteer.getEmail</a></td>
+                    <td><a href="@routes.VolunteerController.details(volunteer.getId)">
                         <span class="glyphicon glyphicon-pencil"></span></a>
-                        <a href="@routes.VolunteerController.delete(volunteer.id)">
+                        <a href="@routes.VolunteerController.delete(volunteer.getId)">
                         <span class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>

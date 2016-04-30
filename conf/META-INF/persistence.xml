@@ -9,6 +9,7 @@
 
         <class>models.Volunteer</class>
         <class>models.Assignment</class>
+        <class>models.Location</class>
 
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update" />

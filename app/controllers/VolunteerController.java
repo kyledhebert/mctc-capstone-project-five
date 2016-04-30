@@ -1,6 +1,7 @@
 package controllers;
 
 
+import com.google.inject.Inject;
 import models.Volunteer;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -20,7 +21,7 @@ import views.html.volunteers.details;
 import views.html.volunteers.newvolunteer;
 import views.html.volunteers.volunteers;
 
-import javax.inject.Inject;
+
 import javax.persistence.EntityManager;
 
 public class VolunteerController extends Controller {
@@ -44,7 +45,9 @@ public class VolunteerController extends Controller {
     // builder for creating Volunteer objects
     // helps with non-required fields
     private Volunteer buildVolunteer(Volunteer volunteer) {
-        return new Volunteer.VolunteerBuilder(volunteer.getFirstName(), volunteer.getLastName(), volunteer.getStatus(), volunteer.getAddress1(), volunteer.getCity(), volunteer.getState(), volunteer.getZipCode())
+        return new Volunteer.VolunteerBuilder(volunteer.getFirstName(),
+                volunteer.getLastName(), volunteer.getStatus(), volunteer.getAddress1(),
+                volunteer.getCity(), volunteer.getState(), volunteer.getZipCode())
                 .withPhone(volunteer.getPhoneNumber())
                 .withEmail(volunteer.getEmail())
                 .withAddress2(volunteer.getAddress2())
@@ -196,7 +199,7 @@ public class VolunteerController extends Controller {
         Session session = getSession();
         session.delete(volunteer);
 
-        flash("success", String.format("Successfully deleted volunteer %s", volunteer.firstName));
+        flash("success", String.format("Successfully deleted volunteer %s", volunteer));
 
         return redirect(routes.VolunteerController.list());
     }

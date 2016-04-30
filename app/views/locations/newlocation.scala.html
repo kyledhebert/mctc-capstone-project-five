@@ -1,0 +1,17 @@
+@(locationForm: Form[Location])
+@implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-10") }
+
+
+@main("Location form") {
+  <h1>New Location Form</h1>
+  <legend>@locationForm("name").value()</legend>
+  @b3.form(routes.LocationController.save()) {
+    @b3.text(locationForm("name"), '_label -> "Location Name")
+    @b3.text(locationForm("address1"), '_label -> "Address 1")
+    @b3.text(locationForm("address2"), '_label -> "Address 2")
+    @b3.text(locationForm("city"), '_label -> "City")
+    @b3.text(locationForm("state"), '_label -> "State")
+    @b3.text(locationForm("zipCode"), '_label -> "Zip Code")
+    @b3.submit('class -> "btn btn-primary") { Save }
+  }
+}

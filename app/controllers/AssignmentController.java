@@ -2,6 +2,7 @@ package controllers;
 
 
 import models.Assignment;
+import models.Location;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import play.data.Form;
@@ -39,7 +40,7 @@ public class AssignmentController extends Controller {
         return (Session) entityManager.getDelegate();
     }
 
-    // list all the assignments in the database
+    // list all the locations and assignments in the database
     @Transactional
     @SuppressWarnings("unchecked")
     public Result list() {
@@ -52,13 +53,18 @@ public class AssignmentController extends Controller {
 
         return ok(assignments.render(assignmentList));
 
+
+
     }
 
     // renders a form for capturing a new assignment
-    public Result newAssignment() {
+    public Result newAssignment(int locationId) {
+
         Form<Assignment> assignmentForm = formFactory.form(Assignment.class);
 
-        return ok(newassignment.render(assignmentForm));
+        // locationId gets passed so the assignment can be associated with
+        // the location on saving
+        return ok(newassignment.render(assignmentForm, locationId));
     }
 
     // renders a from for displaying and editing an assignment's details
@@ -69,7 +75,7 @@ public class AssignmentController extends Controller {
             return notFound(String.format("Assignment %d does not exist", id));
         }
 
-        // creates a form and prefills it with the assignment details
+        // creates a form and pre-fills it with the assignment details
         Form<Assignment> assignmentForm = formFactory.form(Assignment.class);
         Form<Assignment> filledForm = assignmentForm.fill(assignment);
 
@@ -87,24 +93,33 @@ public class AssignmentController extends Controller {
 
     // saves a new assignment to the database using the form data
     @Transactional
-    public Result save() {
+    public Result save(int locationId) {
         Form<Assignment> assignmentForm = formFactory.form(Assignment.class);
         Form<Assignment> boundForm = assignmentForm.bindFromRequest();
         if (boundForm.hasErrors()) {
             flash("error", "Please correct the form below");
-            return badRequest(newassignment.render(boundForm));
+            return badRequest(newassignment.render(boundForm, locationId));
         }
 
         // create a new assignment from the form entries
         Assignment assignment = boundForm.get();
 
-        // save the new assignment with Hibernate
+        // save the new Assignment and get its id
         Session session = getSession();
+        assignment.setLocation(session.get(Location.class, locationId));
         session.save(assignment);
+
+//        // create a new location assignment
+//        LocationAssignment locationAssignment = new LocationAssignment();
+//        locationAssignment.location =  session.get(Location.class, locationId);
+//        locationAssignment.assignment = session.get(Assignment.class, assignmentId);
+//
+//        // and save it
+//        session.save(locationAssignment);
 
         flash("success", String.format("Successfully added assignment %s", assignment));
 
-        return redirect(routes.AssignmentController.list());
+        return redirect(routes.LocationController.details(locationId));
     }
 
 

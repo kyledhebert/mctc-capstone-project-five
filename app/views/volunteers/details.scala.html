@@ -6,7 +6,7 @@
 @main("Volunteer form") {
     <h1>Volunteer Details Form</h1>
     <legend>Volunteer @volunteerForm("firstName").value @volunteerForm("lastName").value()</legend>
-    @b3.form(routes.VolunteerController.update(volunteer.id)) {
+    @b3.form(routes.VolunteerController.update(volunteer.getId)) {
         @b3.text(volunteerForm("firstName"), '_label -> "First Name")
         @b3.text(volunteerForm("lastName"), '_label -> "Last Name")
         @b3.select(volunteerForm("status"), options = statuses, '_label -> "Select a status")

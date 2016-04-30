@@ -1,27 +1,35 @@
 @(assignments: List[Assignment])
 
 @main("Assignment List") {
-  <h2>All Assignments</h2>
-  <a href="@routes.AssignmentController.newAssignment()" class="btn btn-primary">
-    <span class="glyphicon glyphicon-plus"></span> New Assignment</a>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Assignment Name</th>
-      </tr>
-    </thead>
-    <tbody>
-    @for(assignment <- assignments) {
-      <tr>
-        <td><a href="@routes.AssignmentController.details(assignment.id)">
-        @assignment.assignmentName</a></td>
-        <td><a href="@routes.AssignmentController.details(assignment.id)">
-          <span class="glyphicon glyphicon-pencil"></span></a>
-          <a href="@routes.AssignmentController.delete(assignment.id)">
-            <span class="glyphicon glyphicon-trash"></span></a>
-        </td>
-      </tr>
-    }
-    </tbody>
-  </table>
+    <h2>All Assignments</h2>
+    @*<a href="@routes.AssignmentController.newAssignment()" class="btn btn-primary">*@
+    @*<span class="glyphicon glyphicon-plus"></span> New Assignment</a>*@
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Assignment Name</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(assignment <- assignments) {
+            <tr>
+                <td><a href="@routes.AssignmentController.details(assignment.getId)">
+                @assignment.getAssignmentName
+                </a>
+                </td>
+                <td><a href="@routes.LocationController.details(assignment.getLocation.getId)">
+                    @assignment.getLocation.getName
+                </a>
+                </td>
+
+                <td><a href="@routes.AssignmentController.details(assignment.getId)">
+                    <span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="@routes.AssignmentController.delete(assignment.getId)">
+                        <span class="glyphicon glyphicon-trash"></span></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
