@@ -75,7 +75,7 @@ public class AssignmentController extends Controller {
             return notFound(String.format("Assignment %d does not exist", id));
         }
 
-        // creates a form and prefills it with the assignment details
+        // creates a form and pre-fills it with the assignment details
         Form<Assignment> assignmentForm = formFactory.form(Assignment.class);
         Form<Assignment> filledForm = assignmentForm.fill(assignment);
 
