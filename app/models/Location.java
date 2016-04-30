@@ -16,42 +16,51 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    public int id;
+    private int id;
 
     @Constraints.Required
     @Constraints.MaxLength(50)
     @Column
-    public String name;
+    private String name;
 
     @Constraints.Required
     @Constraints.MaxLength(250)
     @Column
-    public String address1;
+    private String address1;
 
     @Constraints.MaxLength(250)
     @Column
-    public String address2;
+    private String address2;
 
     @Constraints.Required
     @Constraints.MaxLength(50)
     @Column
-    public String city;
+    private String city;
 
     @Constraints.Required
     @Constraints.MaxLength(2)
     @Column
-    public String state;
+    private String state;
 
     @Constraints.Required
+    @Constraints.MinLength(5)
     @Constraints.MaxLength(5)
     @Column
-    public String zipCode;
+    private String zipCode;
 
     @OneToMany(mappedBy="location", orphanRemoval = true)
-    public List<LocationAssignment> assignments;
+    private List<Assignment> assignments;
 
     // default constructor for JPA
     public Location() {}
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -101,11 +110,11 @@ public class Location {
         this.zipCode = zipCode;
     }
 
-    public List<LocationAssignment> getAssignments() {
+    public List<Assignment> getAssignments() {
         return assignments;
     }
 
-    public void setAssignments(List<LocationAssignment> assignments) {
+    public void setAssignments(List<Assignment> assignments) {
         this.assignments = assignments;
     }
 

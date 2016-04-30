@@ -15,22 +15,22 @@
         <tbody>
         @for(location <- locations) {
             <tr>
-                <td><a href="@routes.LocationController.details(location.id)">
-                @location.name
+                <td><a href="@routes.LocationController.details(location.getId)">
+                @location.getName
                 </a>
                 </td>
-                <td><a href="@routes.LocationController.details(location.id)">
-                @location.address1
+                <td><a href="@routes.LocationController.details(location.getId)">
+                @location.getAddress1
                 </a>
                 </td>
-                <td><a href="@routes.LocationController.details(location.id)">
-                @location.city
+                <td><a href="@routes.LocationController.details(location.getId)">
+                @location.getCity
                 </a>
                 </td>
-                <td><a href="@routes.LocationController.details(location.id)">
+                <td><a href="@routes.LocationController.details(location.getId)">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
-                    <a href="@routes.LocationController.delete(location.id)">
+                    <a href="@routes.LocationController.delete(location.getId)">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </td>

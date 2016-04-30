@@ -199,7 +199,7 @@ public class VolunteerController extends Controller {
         Session session = getSession();
         session.delete(volunteer);
 
-        flash("success", String.format("Successfully deleted volunteer %s", volunteer.firstName));
+        flash("success", String.format("Successfully deleted volunteer %s", volunteer));
 
         return redirect(routes.VolunteerController.list());
     }

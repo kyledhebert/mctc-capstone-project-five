@@ -1,9 +1,7 @@
 package controllers;
 
 import com.google.inject.Inject;
-import models.Assignment;
 import models.Location;
-import models.LocationAssignment;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import play.data.Form;

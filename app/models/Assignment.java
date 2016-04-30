@@ -1,14 +1,11 @@
 package models;
 
-import org.hibernate.annotations.*;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import java.util.HashSet;
+import java.awt.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Assignment {
@@ -16,22 +13,24 @@ public class Assignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    public int id;
+    private int id;
 
     @Constraints.Required
     @Column
-    public String assignmentName;
+    private String assignmentName;
+
+    @ManyToOne
+    private Location location;
 
     @OneToMany(mappedBy = "assignment", orphanRemoval = true)
-    private List<LocationAssignment> locationAssignments;
-
+    private List<Volunteer> volunteers;
 
     // default constructor for JPA
     public Assignment() {}
 
-    public Assignment(String assignmentName) {
-        this.assignmentName = assignmentName;
-    }
+//    public Assignment(String assignmentName) {
+//        this.assignmentName = assignmentName;
+//    }
 
     @Override
     public String toString() {
@@ -56,11 +55,19 @@ public class Assignment {
         this.assignmentName = activityName;
     }
 
-    public List<LocationAssignment> getLocationAssignments() {
-        return locationAssignments;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocationAssignments(List<LocationAssignment> locationAssignments) {
-        this.locationAssignments = locationAssignments;
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public List<Volunteer> getVolunteers() {
+        return volunteers;
+    }
+
+    public void setVolunteers(List<Volunteer> volunteers) {
+        this.volunteers = volunteers;
     }
 }

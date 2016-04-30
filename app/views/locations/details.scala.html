@@ -5,7 +5,7 @@
 @main("Location form") {
     <h1>Location Details</h1>
     <legend>@locationForm("name").value()</legend>
-    @b3.form(routes.LocationController.update(location.id)) {
+    @b3.form(routes.LocationController.update(location.getId)) {
         @b3.text(locationForm("name"), '_label -> "Location Name")
         @b3.text(locationForm("address1"), '_label -> "Address 1")
         @b3.text(locationForm("address2"), '_label -> "Address 2")
@@ -16,7 +16,7 @@
     }
 
     <h3>Assignments</h3>
-    @if(location.assignments.isEmpty) {
+    @if(location.getAssignments.isEmpty) {
         <p>There are no assignments for this location</p>
     } else {
         <table class="table table-striped">
@@ -24,17 +24,21 @@
 
             </thead>
             <tbody>
-                @for(assignment <- location.assignments) {
+                @for(assignment <- location.getAssignments) {
                     <tr>
-                        <td>@assignment.getAssignment.assignmentName</td>
-                        <td><a href="@routes.AssignmentController.delete(assignment.getAssignment.id)">
+                        <td>@assignment.getAssignmentName</td>
+                        <td><a href="@routes.AssignmentController.details(assignment.getId)">
+                            Manage Volunteers</a></td>
+                        <td><a href="@routes.AssignmentController.details(assignment.getId)">
+                            <span class="glyphicon glyphicon-pencil"></span></a>
+                            <a href="@routes.AssignmentController.delete(assignment.getId)">
                             <span class="glyphicon glyphicon-trash"></span></a> </td>
                     </tr>
                 }
             }
             </tbody>
         </table>
-    <a href="@routes.AssignmentController.newAssignment(location.id)">New Assignment</a>
+    <a href="@routes.AssignmentController.newAssignment(location.getId)">New Assignment</a>
 
 
 }

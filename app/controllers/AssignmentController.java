@@ -3,7 +3,6 @@ package controllers;
 
 import models.Assignment;
 import models.Location;
-import models.LocationAssignment;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import play.data.Form;
@@ -107,19 +106,20 @@ public class AssignmentController extends Controller {
 
         // save the new Assignment and get its id
         Session session = getSession();
-        int assignmentId = (int)session.save(assignment);
+        assignment.setLocation(session.get(Location.class, locationId));
+        session.save(assignment);
 
-        // create a new location assignment
-        LocationAssignment locationAssignment = new LocationAssignment();
-        locationAssignment.location =  session.get(Location.class, locationId);
-        locationAssignment.assignment = session.get(Assignment.class, assignmentId);
-
-        // and save it
-        session.save(locationAssignment);
+//        // create a new location assignment
+//        LocationAssignment locationAssignment = new LocationAssignment();
+//        locationAssignment.location =  session.get(Location.class, locationId);
+//        locationAssignment.assignment = session.get(Assignment.class, assignmentId);
+//
+//        // and save it
+//        session.save(locationAssignment);
 
         flash("success", String.format("Successfully added assignment %s", assignment));
 
-        return redirect(routes.AssignmentController.list());
+        return redirect(routes.LocationController.details(locationId));
     }
 
 

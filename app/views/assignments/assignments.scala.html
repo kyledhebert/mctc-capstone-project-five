@@ -13,11 +13,12 @@
     <tbody>
     @for(assignment <- assignments) {
       <tr>
-        <td><a href="@routes.AssignmentController.details(assignment.id)">
-        @assignment.assignmentName</a></td>
-        <td><a href="@routes.AssignmentController.details(assignment.id)">
+        <td><a href="@routes.AssignmentController.details(assignment.getId)">
+        @assignment.getAssignmentName
+        </a></td>
+        <td><a href="@routes.AssignmentController.details(assignment.getId)">
           <span class="glyphicon glyphicon-pencil"></span></a>
-          <a href="@routes.AssignmentController.delete(assignment.id)">
+          <a href="@routes.AssignmentController.delete(assignment.getId)">
             <span class="glyphicon glyphicon-trash"></span></a>
         </td>
       </tr>
