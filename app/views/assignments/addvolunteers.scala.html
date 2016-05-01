@@ -1,0 +1,51 @@
+@(volunteers: List[Volunteer], searchForm: DynamicForm, assignment: Assignment)
+@import b3.inline.fieldConstructor
+
+    @main("Add Volunteers") {
+    <h2>All Volunteers</h2>
+    @for(letter <- "abcdefghijklmnopqrstuvwxyz") {
+        <a href="@routes.VolunteerController.browse(letter)">@letter.toUpper</a>
+    }
+    <a href="@routes.VolunteerController.list()">All</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(volunteer <- volunteers) {
+            <tr>
+                <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                @volunteer.getFirstName</a>
+                </td>
+                <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                @volunteer.getLastName</a>
+                </td>
+                <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                @volunteer.getEmail</a>
+                </td>
+                <td><a href="@routes.AssignmentController.addVolunteerToAssignment(assignment.getId, volunteer.getId)">
+                    <span class="glyphicon glyphicon-plus-sign"></span></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="form-group">
+        <h3>Find</h3>
+        <p class="help-block">Search within volunteer records.</p>
+        <p class="help-block"> Enter either a first or last name.</p>
+        @b3.form(routes.VolunteerController.searchFirstName()) {
+            @b3.text(searchForm("firstName"), '_label -> "First Name")
+            @b3.submit('class -> "btn btn-default") { Search }
+        }
+        @b3.form(routes.VolunteerController.searchLastName()) {
+            @b3.text(searchForm("lastName"), '_label -> "Last Name")
+            @b3.submit('class -> "btn btn-default") { Search}
+        }
+    </div>
+}

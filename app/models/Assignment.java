@@ -22,15 +22,15 @@ public class Assignment {
     @ManyToOne
     private Location location;
 
-    @OneToMany(mappedBy = "assignment", orphanRemoval = true)
+    @ManyToMany
+    @JoinTable(name = "AssignmentVolunteer",
+    joinColumns = {@JoinColumn(name = "assignmentId")},
+    inverseJoinColumns = {@JoinColumn(name = "volunteerId")})
     private List<Volunteer> volunteers;
 
     // default constructor for JPA
     public Assignment() {}
 
-//    public Assignment(String assignmentName) {
-//        this.assignmentName = assignmentName;
-//    }
 
     @Override
     public String toString() {

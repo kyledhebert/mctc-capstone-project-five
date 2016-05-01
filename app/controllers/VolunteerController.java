@@ -195,6 +195,8 @@ public class VolunteerController extends Controller {
         if (volunteer == null) {
             return notFound(String.format("Volunteer %d does not exist.", id));
         }
+        // remove all assignments before deleting
+        volunteer.getAssignments().clear();
 
         Session session = getSession();
         session.delete(volunteer);
