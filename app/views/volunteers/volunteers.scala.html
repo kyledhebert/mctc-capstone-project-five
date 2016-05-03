@@ -8,34 +8,43 @@
         <a href="@routes.VolunteerController.browse(letter)">@letter.toUpper</a>
     }
     <a href="@routes.VolunteerController.list()">All</a>
+    @if(volunteers.isEmpty) {
+        <p class="help-block">There are no volunteers in the database. Use the button below to add volunteers.</p>
+    } else {
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
             @for(volunteer <- volunteers) {
                 <tr>
-                    <td><a href="@routes.VolunteerController.details(volunteer.getId)">
-                    @volunteer.getFirstName</a></td>
-                    <td><a href="@routes.VolunteerController.details(volunteer.getId)">
-                    @volunteer.getLastName</a></td>
-                    <td><a href="@routes.VolunteerController.details(volunteer.getId)">
-                    @volunteer.getEmail</a></td>
+                    <td>@volunteer.getFirstName</td>
+                    <td>@volunteer.getLastName</td>
+                    <td>@volunteer.getEmail</td>
+                    <td>
+                        <a href="@routes.VolunteerController.details(volunteer.getId)">Manage Assignments</a>
+                    </td>
+
                     <td><a href="@routes.VolunteerController.details(volunteer.getId)">
                         <span class="glyphicon glyphicon-pencil"></span></a>
                         <a href="@routes.VolunteerController.delete(volunteer.getId)">
-                        <span class="glyphicon glyphicon-trash"></span></a>
+                            <span class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>
             }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
+    <a href="@routes.VolunteerController.newVolunteer()" class="btn btn-primary" >
+        <span class="glyphicon glyphicon-plus" ></span> New Volunteer</a>
+
     <div class="form-group">
         <h3>Find</h3>
         <p class="help-block">Search within volunteer records.</p>
@@ -49,9 +58,4 @@
         @b3.submit('class -> "btn btn-default") { Search}
     }
     </div>
-
-
-    <a href="@routes.VolunteerController.newVolunteer()" class="btn btn-primary" >
-        <span class="glyphicon glyphicon-plus" ></span> New Volunteer</a>
-
 }

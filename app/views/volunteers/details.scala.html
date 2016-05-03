@@ -4,8 +4,8 @@
 
 
 @main("Volunteer form") {
-    <h1>Volunteer Details Form</h1>
-    <legend>Volunteer @volunteerForm("firstName").value @volunteerForm("lastName").value()</legend>
+    <h1>Volunteer Details</h1>
+    <legend>@volunteerForm("firstName").value @volunteerForm("lastName").value()</legend>
     @b3.form(routes.VolunteerController.update(volunteer.getId)) {
         @b3.text(volunteerForm("firstName"), '_label -> "First Name")
         @b3.text(volunteerForm("lastName"), '_label -> "Last Name")
@@ -20,3 +20,22 @@
         @b3.submit('class -> "btn btn-primary") { Save }
     }
 }
+<h3>Assignments</h3>
+    @if(volunteer.getAssignments.isEmpty) {
+        <p>This volunteer does not have any assignments</p>
+    } else {
+        <table class="table table-striped">
+            <thead>
+                <th>Assignment</th>
+                <th>Location</th>
+            </thead>
+            <tbody>
+                @for(assignment <- volunteer.getAssignments) {
+                    <tr>
+                        <td>@assignment.getAssignmentName</td>
+                        <td>@assignment.getLocation.getName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }

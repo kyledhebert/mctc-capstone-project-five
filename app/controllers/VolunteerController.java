@@ -2,6 +2,7 @@ package controllers;
 
 
 import com.google.inject.Inject;
+import models.Assignment;
 import models.Volunteer;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -15,7 +16,9 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import views.html.volunteers.details;
 import views.html.volunteers.newvolunteer;
@@ -196,7 +199,7 @@ public class VolunteerController extends Controller {
             return notFound(String.format("Volunteer %d does not exist.", id));
         }
         // remove all assignments before deleting
-        volunteer.getAssignments().clear();
+        removeVolunteerFromAssignments(volunteer);
 
         Session session = getSession();
         session.delete(volunteer);
@@ -204,6 +207,15 @@ public class VolunteerController extends Controller {
         flash("success", String.format("Successfully deleted volunteer %s", volunteer));
 
         return redirect(routes.VolunteerController.list());
+    }
+
+    private void removeVolunteerFromAssignments(Volunteer volunteer) {
+
+        Set<Assignment> assignments = volunteer.getAssignments();
+
+        for (Assignment assignment : assignments){
+            assignment.getVolunteers().remove(volunteer);
+        }
     }
 
     @Transactional

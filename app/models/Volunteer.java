@@ -7,6 +7,7 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Volunteer {
@@ -60,8 +61,8 @@ public class Volunteer {
     @Column
     private String email;
 
-    @ManyToMany(mappedBy = "volunteers", cascade = CascadeType.ALL)
-    private List<Assignment> assignments;
+    @ManyToMany(mappedBy = "volunteers")
+    private Set<Assignment> assignments;
 
     // default constructor for JPA
     public Volunteer() {}
@@ -154,11 +155,11 @@ public class Volunteer {
         this.email = email;
     }
 
-    public List<Assignment> getAssignments() {
+    public Set<Assignment> getAssignments() {
         return assignments;
     }
 
-    public void setAssignments(List<Assignment> assignments) {
+    public void setAssignments(Set<Assignment> assignments) {
         this.assignments = assignments;
     }
 
