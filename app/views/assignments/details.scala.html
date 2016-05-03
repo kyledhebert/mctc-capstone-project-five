@@ -28,7 +28,7 @@
                             @volunteer.getEmail</a></td>
                             <td><a href="@routes.VolunteerController.details(volunteer.getId)">
                                 <span class="glyphicon glyphicon-pencil"></span></a>
-                                <a href="@routes.VolunteerController.delete(volunteer.getId)">
+                                <a href="@routes.AssignmentController.removeVolunteerFromAssignment(assignment.getId, volunteer.getId)">
                                     <span class="glyphicon glyphicon-trash"></span></a>
                             </td>
                         </tr>

@@ -184,7 +184,7 @@ public class AssignmentController extends Controller {
         return ok(addvolunteers.render(volunteerList, searchForm, assignment));
     }
 
-    //add a volunteer to an assignment
+    // add a volunteer to an assignment
     @Transactional
     public Result addVolunteerToAssignment(int assignmentId, int volunteerId) {
 
@@ -199,5 +199,22 @@ public class AssignmentController extends Controller {
 
         return redirect(routes.AssignmentController.browseVolunteers(assignmentId));
     }
+
+    // remove a volunteer from an assignment
+    @Transactional
+    public Result removeVolunteerFromAssignment(int assignmentId, int volunteerId) {
+
+        Session session = getSession();
+
+        Assignment assignment = session.get(Assignment.class, assignmentId);
+        Volunteer volunteer = session.get(Volunteer.class, volunteerId);
+
+        assignment.getVolunteers().remove(volunteer);
+
+        session.save(assignment);
+
+        return redirect(routes.AssignmentController.browseVolunteers(assignmentId));
+    }
+
 
 }

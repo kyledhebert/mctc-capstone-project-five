@@ -22,7 +22,8 @@ POST    /assignments/                       controllers.AssignmentController.sav
 POST    /assignments/update/                controllers.AssignmentController.update(id: Integer)
 GET     /assignments/delete/:id             controllers.AssignmentController.delete(id: Integer)
 GET     /assignments/volunteers/:id         controllers.AssignmentController.browseVolunteers(id: Integer)
-GET    /assignments/:aId/:vId              controllers.AssignmentController.addVolunteerToAssignment(aId: Integer, vId: Integer)
+GET     /assignments/:aId/:vId              controllers.AssignmentController.addVolunteerToAssignment(aId: Integer, vId: Integer)
+GET     /assignments/delete/:aId/:vId       controllers.AssignmentController.removeVolunteerFromAssignment(aId: Integer, vId: Integer)
 
 GET     /locations/                         controllers.LocationController.list()
 GET     /locations/new                      controllers.LocationController.newLocation()

@@ -60,7 +60,7 @@ public class Volunteer {
     @Column
     private String email;
 
-    @ManyToMany(mappedBy = "volunteers")
+    @ManyToMany(mappedBy = "volunteers", cascade = CascadeType.ALL)
     private List<Assignment> assignments;
 
     // default constructor for JPA
