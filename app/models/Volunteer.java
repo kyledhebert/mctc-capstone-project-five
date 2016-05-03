@@ -1,9 +1,13 @@
 package models;
 
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Volunteer {
@@ -57,12 +61,11 @@ public class Volunteer {
     @Column
     private String email;
 
-    @ManyToOne
-    private Assignment assignment;
+    @ManyToMany(mappedBy = "volunteers")
+    private Set<Assignment> assignments;
 
     // default constructor for JPA
     public Volunteer() {}
-
 
     public int getId() {
         return id;
@@ -152,12 +155,12 @@ public class Volunteer {
         this.email = email;
     }
 
-    public Assignment getAssignment() {
-        return assignment;
+    public Set<Assignment> getAssignments() {
+        return assignments;
     }
 
-    public void setAssignment(Assignment assignment) {
-        this.assignment = assignment;
+    public void setAssignments(Set<Assignment> assignments) {
+        this.assignments = assignments;
     }
 
     public Volunteer(VolunteerBuilder builder) {

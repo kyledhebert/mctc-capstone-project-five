@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import java.awt.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Assignment {
@@ -22,15 +23,15 @@ public class Assignment {
     @ManyToOne
     private Location location;
 
-    @OneToMany(mappedBy = "assignment", orphanRemoval = true)
-    private List<Volunteer> volunteers;
+    @ManyToMany
+    @JoinTable(name = "AssignmentVolunteer",
+    joinColumns = {@JoinColumn(name = "assignmentId")},
+    inverseJoinColumns = {@JoinColumn(name = "volunteerId")})
+    private Set<Volunteer> volunteers;
 
     // default constructor for JPA
     public Assignment() {}
 
-//    public Assignment(String assignmentName) {
-//        this.assignmentName = assignmentName;
-//    }
 
     @Override
     public String toString() {
@@ -63,11 +64,11 @@ public class Assignment {
         this.location = location;
     }
 
-    public List<Volunteer> getVolunteers() {
+    public Set<Volunteer> getVolunteers() {
         return volunteers;
     }
 
-    public void setVolunteers(List<Volunteer> volunteers) {
+    public void setVolunteers(Set<Volunteer> volunteers) {
         this.volunteers = volunteers;
     }
 }

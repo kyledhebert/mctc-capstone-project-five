@@ -5,7 +5,7 @@
     @main("Assignment Details") {
         <h1>Assignment Details</h1>
         @b3.form(routes.AssignmentController.update(assignment.getId)) {
-            <legend>Assignment @assignmentForm("assignmentName").valueOr("New")</legend>
+            <legend>@assignmentForm("assignmentName").valueOr("New")</legend>
             @b3.text(assignmentForm("assignmentName"), '_label -> "Assignment Name")
             <input type="submit" class="btn btn-primary" value="Save">
 
@@ -28,8 +28,8 @@
                             @volunteer.getEmail</a></td>
                             <td><a href="@routes.VolunteerController.details(volunteer.getId)">
                                 <span class="glyphicon glyphicon-pencil"></span></a>
-                                <a href="@routes.VolunteerController.delete(volunteer.getId)">
-                                    <span class="glyphicon glyphicon-trash"></span></a>
+                                <a href="@routes.AssignmentController.removeVolunteerFromAssignment(assignment.getId, volunteer.getId)">
+                                    <span class="glyphicon glyphicon-remove"></span></a>
                             </td>
                         </tr>
 
@@ -37,6 +37,7 @@
                 </tbody>
             </table>
         }
+        <p><a href="@routes.AssignmentController.browseVolunteers(assignment.getId)">Add Volunteers</a> </p>
 
 
     }

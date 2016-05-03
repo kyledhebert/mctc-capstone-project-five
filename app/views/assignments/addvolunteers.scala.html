@@ -1,0 +1,63 @@
+@(volunteers: List[Volunteer], searchForm: DynamicForm, assignment: Assignment)
+@import b3.inline.fieldConstructor
+
+    @main("Add Volunteers") {
+    <h2>@assignment.getAssignmentName</h2> <a href="@routes.AssignmentController.details(assignment.getId)">(back to details)</a>
+    <h3>Assigned Volunteers</h3>
+    @if(assignment.getVolunteers.isEmpty) {
+        <p class="help-block">Add volunteers from the list below.</p>
+    } else{
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(volunteer <- assignment.getVolunteers) {
+                <tr>
+                    <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                    @volunteer.getFirstName</a>
+                    </td>
+                    <td><a href="@routes.VolunteerController.details(volunteer.getId)">
+                    @volunteer.getLastName</a>
+                    </td>
+                    <td><a href="@routes.AssignmentController.removeVolunteerFromAssignment(assignment.getId, volunteer.getId)">
+                        <span class="glyphicon glyphicon-remove"></span></a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    <h3>All Volunteers</h3>
+    @if(volunteers.isEmpty) {
+        <p class="help-block">There are no volunteers available. <a href="@routes.VolunteerController.newVolunteer()"> Add one.</a></p>
+    } else {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(volunteer <- volunteers) {
+                @if(!assignment.getVolunteers.contains(volunteer)) {
+                    <tr>
+                        <td>@volunteer.getFirstName</td>
+                        <td>@volunteer.getLastName</td>
+                        <td><a href="@routes.AssignmentController.addVolunteerToAssignment(assignment.getId, volunteer.getId)">
+                            <span class="glyphicon glyphicon-plus"></span></a>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    }
+
+}

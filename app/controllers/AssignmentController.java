@@ -2,9 +2,12 @@ package controllers;
 
 
 import models.Assignment;
+import models.AssignmentVolunteer;
 import models.Location;
+import models.Volunteer;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.JPAApi;
@@ -17,6 +20,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import views.html.assignments.addvolunteers;
 import views.html.assignments.assignments;
 import views.html.assignments.details;
 import views.html.assignments.newassignment;
@@ -109,19 +113,10 @@ public class AssignmentController extends Controller {
         assignment.setLocation(session.get(Location.class, locationId));
         session.save(assignment);
 
-//        // create a new location assignment
-//        LocationAssignment locationAssignment = new LocationAssignment();
-//        locationAssignment.location =  session.get(Location.class, locationId);
-//        locationAssignment.assignment = session.get(Assignment.class, assignmentId);
-//
-//        // and save it
-//        session.save(locationAssignment);
-
         flash("success", String.format("Successfully added assignment %s", assignment));
 
         return redirect(routes.LocationController.details(locationId));
     }
-
 
 
     // update an existing assignment
@@ -168,4 +163,58 @@ public class AssignmentController extends Controller {
 
         return redirect(routes.AssignmentController.list());
     }
+
+    // render a form for adding volunteers to an assignment
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public Result browseVolunteers(int assignmentId) {
+
+        Session session = getSession();
+        // get the assignment being added to
+        Assignment assignment = session.get(Assignment.class, assignmentId);
+
+        // get a list of all volunteers
+
+        Criteria criteria = session.createCriteria(Volunteer.class);
+        List<Volunteer> volunteerList = criteria.list();
+
+        // create a dynamic form for searching
+        DynamicForm searchForm = formFactory.form();
+
+        return ok(addvolunteers.render(volunteerList, searchForm, assignment));
+    }
+
+    // add a volunteer to an assignment
+    @Transactional
+    public Result addVolunteerToAssignment(int assignmentId, int volunteerId) {
+
+        Session session = getSession();
+
+        Assignment assignment = session.get(Assignment.class, assignmentId);
+        Volunteer volunteer = session.get(Volunteer.class, volunteerId);
+
+        assignment.getVolunteers().add(volunteer);
+
+        session.save(assignment);
+
+        return redirect(routes.AssignmentController.browseVolunteers(assignmentId));
+    }
+
+    // remove a volunteer from an assignment
+    @Transactional
+    public Result removeVolunteerFromAssignment(int assignmentId, int volunteerId) {
+
+        Session session = getSession();
+
+        Assignment assignment = session.get(Assignment.class, assignmentId);
+        Volunteer volunteer = session.get(Volunteer.class, volunteerId);
+
+        assignment.getVolunteers().remove(volunteer);
+
+        session.save(assignment);
+
+        return redirect(routes.AssignmentController.browseVolunteers(assignmentId));
+    }
+
+
 }
