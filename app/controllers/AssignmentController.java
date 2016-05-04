@@ -26,6 +26,7 @@ import views.html.assignments.newassignment;
 
 /**
  * Manages persistence operations for assignments.
+ *
  * Uses a Hibernate session to create, read, update and delete
  * assignment objects to and from the database.
  *
@@ -46,9 +47,10 @@ public class AssignmentController extends Controller {
     }
 
     /**
-     * Gets a Hibernate session from a JPa EntityManager. The session is used for all persistence operations
+     * Gets a Hibernate session from a JPA EntityManager.
+     * The session is used for all persistence operations
      *
-     * @return a Hibernate session
+     * @return A Hibernate session
      */
     private Session getSession() {
         EntityManager entityManager = jpaApi.em();
@@ -58,7 +60,7 @@ public class AssignmentController extends Controller {
     /**
      * An action that renders an HTML view that lists all assignments in the database.
      *
-     * @return a result for rendering assignments.html with a list of assignments.
+     * @return A result for rendering assignments.html with a list of assignments.
      */
     @Transactional
     @SuppressWarnings("unchecked")
@@ -79,8 +81,8 @@ public class AssignmentController extends Controller {
     /**
      * An action that renders a view containing a form for capturing a new assignment.
      *
-     * @param locationId the ID of the location the assignment belongs too
-     * @return a result for rendering newassignment.html with an <code>assignmentForm</code>
+     * @param locationId The ID of the location the assignment belongs too
+     * @return A result for rendering newassignment.html with an <code>assignmentForm</code>
      */
     public Result newAssignment(int locationId) {
 
@@ -94,8 +96,8 @@ public class AssignmentController extends Controller {
     /**
      * An action that renders a view containing a form for viewing or editing an assignment's details.
      *
-     * @param id the ID of the assignment being viewed or edited
-     * @return a result for rendering assignment.html or null
+     * @param id The ID of the assignment being viewed or edited
+     * @return A result for rendering assignment.html or null
      */
     @Transactional
     public Result details(int id) {
@@ -117,8 +119,8 @@ public class AssignmentController extends Controller {
      *     This method uses an <code>Assignment's</code> id value,
      *     to retrieve that assignment from the database.
      * </p>
-     * @param id the ID of the assignment being requested
-     * @return an assignment object from the database
+     * @param id The ID of the assignment being requested
+     * @return An assignment object from the database
      */
     private Assignment getAssignmentById(int id) {
         Session session = getSession();
@@ -143,8 +145,8 @@ public class AssignmentController extends Controller {
      *     assignment has errors, the user receives a flash message
      *     stating the error.
      * </p>
-     * @param locationId the ID of the location the assignment belongs to
-     * @return a redirect result back to the owning location's details page
+     * @param locationId The ID of the location the assignment belongs to
+     * @return A redirect result back to the owning location's details page
      */
     @Transactional
     public Result save(int locationId) {
@@ -178,8 +180,8 @@ public class AssignmentController extends Controller {
      *     The user is also notified via flash message that the
      *     assignment was updated.
      * </p>
-     * @param id the ID of the assignment being updated
-     * @return a redirect back to the list of assignments
+     * @param id The ID of the assignment being updated
+     * @return A redirect back to the list of assignments
      */
     @Transactional
     public Result update(int id) {
@@ -216,8 +218,8 @@ public class AssignmentController extends Controller {
      *     returns a flash message alerting the user, then redirects
      *     back to the list of assignments.
      * </p>
-     * @param id the id of the assignment being deleted
-     * @return a redirect back to the list of assignments
+     * @param id The id of the assignment being deleted
+     * @return A redirect back to the list of assignments
      */
     @Transactional
     public Result delete(int id) {
@@ -244,9 +246,9 @@ public class AssignmentController extends Controller {
      *     Volunteers already associated with the assignment can also be
      *     removed from the assignment via this template.
      * </p>
-     * @param assignmentId the id of the assignment the volunteer is being
+     * @param assignmentId The id of the assignment the volunteer is being
      *                     assigned to
-     * @return  an ok http result along with a list of volunteers and a
+     * @return  An ok http result along with a list of volunteers and a
      *          search form for rendering
      */
     @Transactional
@@ -277,11 +279,11 @@ public class AssignmentController extends Controller {
      *     saving the assignment an http redirect to the browseVolunteers()
      *     route is returned.
      * </p>
-     * @param assignmentId the ID of the assignment the volunteer is being
+     * @param assignmentId The ID of the assignment the volunteer is being
      *                     assigned to.
-     * @param volunteerId the ID of the volunteer being assigned to the
+     * @param volunteerId The ID of the volunteer being assigned to the
      *                    assignment
-     * @return a redirect result to the browseVolunteers() route
+     * @return A redirect result to the browseVolunteers() route
      */
     @Transactional
     public Result addVolunteerToAssignment(int assignmentId, int volunteerId) {
@@ -307,11 +309,11 @@ public class AssignmentController extends Controller {
      *     Set of volunteers. after saving the assignment an http redirect
      *     to the browseVolunteers() route is returned
      * </p>
-     * @param assignmentId the ID of the assignment the volunteer is
+     * @param assignmentId The ID of the assignment the volunteer is
      *                     being removed from
-     * @param volunteerId the ID of the volunteer being removed from
+     * @param volunteerId The ID of the volunteer being removed from
      *                    the assignment
-     * @return a redirect result to the browseVolunteers() route
+     * @return A redirect result to the browseVolunteers() route
      */
     @Transactional
     public Result removeVolunteerFromAssignment(int assignmentId, int volunteerId) {
