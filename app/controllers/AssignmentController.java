@@ -25,10 +25,10 @@ import views.html.assignments.details;
 import views.html.assignments.newassignment;
 
 /**
- * Manages persistence operations for assignments.
+ * This controller manages persistence operations for <code>Assignments</code>.
  *
- * Uses a Hibernate session to create, read, update and delete
- * assignment objects to and from the database.
+ * This controller uses JPA and Hibernate to create, read, update
+ * and delete <code>Assignments</code> using database transactions.
  *
  * @author Kyle D. Hebert
  * @version 0.2
@@ -46,12 +46,6 @@ public class AssignmentController extends Controller {
         this.formFactory = formFactory;
     }
 
-    /**
-     * Gets a Hibernate session from a JPA EntityManager.
-     * The session is used for all persistence operations
-     *
-     * @return A Hibernate session
-     */
     private Session getSession() {
         EntityManager entityManager = jpaApi.em();
         return (Session) entityManager.getDelegate();
@@ -73,9 +67,6 @@ public class AssignmentController extends Controller {
         List<Assignment> assignmentList = criteria.list();
 
         return ok(assignments.render(assignmentList));
-
-
-
     }
 
     /**
@@ -97,7 +88,7 @@ public class AssignmentController extends Controller {
      * An action that renders a view containing a form for viewing or editing an assignment's details.
      *
      * @param id The ID of the assignment being viewed or edited
-     * @return A result for rendering assignment.html or null
+     * @return A result for rendering details.html or null
      */
     @Transactional
     public Result details(int id) {
@@ -113,15 +104,6 @@ public class AssignmentController extends Controller {
         return ok(details.render(assignment, filledForm));
     }
 
-    /**
-     * Gets an assignment from the database based on its ID.
-     * <p>
-     *     This method uses an <code>Assignment's</code> id value,
-     *     to retrieve that assignment from the database.
-     * </p>
-     * @param id The ID of the assignment being requested
-     * @return An assignment object from the database
-     */
     private Assignment getAssignmentById(int id) {
         Session session = getSession();
 
@@ -138,12 +120,6 @@ public class AssignmentController extends Controller {
      *     redirects back to the location details page for which
      *     the assignment was created. Before the assignment is saved
      *     location gets added to the assignment's location Set.
-     * </p>
-     * <p>
-     *     Successfully saving an assignment creates a flash message
-     *     that is shown to the user. If the form used to create the
-     *     assignment has errors, the user receives a flash message
-     *     stating the error.
      * </p>
      * @param locationId The ID of the location the assignment belongs to
      * @return A redirect result back to the owning location's details page
@@ -214,12 +190,12 @@ public class AssignmentController extends Controller {
     /**
      * An action that deletes an <code>Assignment</code> from the database.
      * <p>
-     *     after successful deletion of an assignment this method
+     *     After successful deletion of an assignment this method
      *     returns a flash message alerting the user, then redirects
      *     back to the list of assignments.
      * </p>
-     * @param id The id of the assignment being deleted
-     * @return A redirect back to the list of assignments
+     * @param id The id of the assignment being deleted.
+     * @return A redirect back to the list of assignments.
      */
     @Transactional
     public Result delete(int id) {

@@ -18,7 +18,17 @@ import views.html.locations.newlocation;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class LocationController  extends Controller {
+/**
+ * This controller manages persistence operations for <code>Locations</code>.
+ *
+ * This controller uses JPA and Hibernate to create, read, update
+ * and delete <code>Locations</code> using database transactions.
+ *
+ * @author Kyle D. Hebert
+ * @version 0.2
+ *
+ */
+public class LocationController extends Controller {
 
     private FormFactory formFactory;
     private JPAApi jpaApi;
@@ -51,7 +61,12 @@ public class LocationController  extends Controller {
     }
 
 
-    // returns a list of all the locations in the database
+    /**
+     * An action that renders an HTML view that list all locations
+     * in the database.
+     *
+     * @return A result for rendering locations.html with a list of locations.
+     */
     @Transactional
     @SuppressWarnings("unchecked")
     public Result list() {
@@ -66,14 +81,25 @@ public class LocationController  extends Controller {
 
     }
 
-    // renders a form for capturing a new location
+    /**
+     * An action that renders a view containing a form for capturing a new
+     * location.
+     *
+     * @return A result for rendering newlocation.html
+     */
     public Result newLocation() {
         Form<Location> locationForm = createLocationForm();
 
         return ok(newlocation.render(locationForm));
     }
 
-    // render a form for displaying and editing an assignment's details
+    /**
+     * An action that renders a view containing a form for viewing or editing
+     * a locations's details.
+     *
+     * @param id The ID of the location being viewed or edited.
+     * @return A result for rendering details.html or null.
+     */
     @Transactional
     public Result details(int id) {
         final Location location = getLocationById(id);
@@ -96,7 +122,14 @@ public class LocationController  extends Controller {
 
     }
 
-    // saves a new location to the database using info from the form
+    /**
+     * An action that saves a <code>Location</code> to the database.
+     * <p>
+     *     This method saves a <code>Location</code> to the database
+     *     before redirecting back to the list of all locations.
+     * </p>
+     * @return A result that redirects back to the list of locations.
+     */
     @Transactional
     public Result save() {
         Form<Location> locationForm = createLocationForm();
@@ -123,7 +156,21 @@ public class LocationController  extends Controller {
     }
 
 
-    // update an existing location
+    /**
+     * An action that updates a <code>Location</code> object based on
+     * fields submitted via a form.
+     * <p>
+     *     This method retrieves information from a form, and uses
+     *     the form data to update an existing location. If there
+     *     are errors with the submitted form the user is notified.
+     *     The user is also notified via flash message that the
+     *     location was updated.
+     * </p>
+
+     * @param id The ID of the location being updated.
+     * @return A result that redirects back to the list of locations,
+     * or re-renders the form if there were errors.
+     */
     @Transactional
     public Result update(int id) {
         Location location = getLocationById(id);
@@ -158,7 +205,12 @@ public class LocationController  extends Controller {
 
     }
 
-    // delete a location
+    /**
+     * An action that deletes a <code>Location</code> from the database.
+     *
+     * @param id The ID of the location being deleted.
+     * @return A result that redirects back to the list of locations.
+     */
     @Transactional
     public Result delete(int id) {
         final Location location = getLocationById(id);

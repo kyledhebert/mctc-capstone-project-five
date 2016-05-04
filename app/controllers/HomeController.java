@@ -11,13 +11,13 @@ import views.html.*;
 public class HomeController extends Controller {
 
     /**
-     * An action that renders an HTML page with a welcome message.
+     * An action that renders the Home page of the application.
      * The configuration in the <code>routes</code> file means that
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index() {
-        return ok(index.render("Your new application is ready."));
+        return ok(index.render());
     }
 
 }
