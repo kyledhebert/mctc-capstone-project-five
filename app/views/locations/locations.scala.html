@@ -2,40 +2,39 @@
 
 @main("Location List") {
     <h2>Locations</h2>
-    <a href ="@routes.LocationController.newLocation()" class="btn btn-primary">
-    <span class="glyphicon glyphicon-plus"></span>New Location</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Location</th>
-                <th>Street</th>
-                <th>City</th>
-            </tr>
-        </thead>
-        <tbody>
-        @for(location <- locations) {
-            <tr>
-                <td><a href="@routes.LocationController.details(location.getId)">
-                @location.getName
-                </a>
-                </td>
-                <td><a href="@routes.LocationController.details(location.getId)">
-                @location.getAddress1
-                </a>
-                </td>
-                <td><a href="@routes.LocationController.details(location.getId)">
-                @location.getCity
-                </a>
-                </td>
-                <td><a href="@routes.LocationController.details(location.getId)">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </a>
-                    <a href="@routes.LocationController.delete(location.getId)">
-                        <span class="glyphicon glyphicon-trash"></span>
+    @if(locations.isEmpty) {
+        <p class="help-block">There are no locations in the database. Use the button below to add locations</p>
+    } else {
+        <p class="help-block">Click on a location to view assignments for that location.</p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Street</th>
+                    <th>City</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(location <- locations) {
+                <tr>
+                    <td><a href="@routes.LocationController.details(location.getId)">
+                    @location.getName</a></td>
+                    <td>@location.getAddress1</td>
+                    <td>@location.getCity</td>
+                    <td><a href="@routes.LocationController.details(location.getId)">
+                        <span class="glyphicon glyphicon-pencil"></span>
                     </a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+                        <a href="@routes.LocationController.delete(location.getId)">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+    <a href ="@routes.LocationController.newLocation()" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus"></span>New Location</a>
+
 }
