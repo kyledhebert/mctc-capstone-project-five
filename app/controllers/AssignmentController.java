@@ -2,7 +2,6 @@ package controllers;
 
 
 import models.Assignment;
-import models.AssignmentVolunteer;
 import models.Location;
 import models.Volunteer;
 import org.hibernate.Criteria;
@@ -25,26 +24,42 @@ import views.html.assignments.assignments;
 import views.html.assignments.details;
 import views.html.assignments.newassignment;
 
-
+/**
+ * Manages persistence operations for assignments.
+ * Uses a Hibernate session to create, read, update and delete
+ * assignment objects to and from the database.
+ *
+ * @author Kyle D. Hebert
+ * @version 0.2
+ *
+ */
 public class AssignmentController extends Controller {
 
     private FormFactory formFactory;
     private JPAApi jpaApi;
 
-    // inject the JPA API and FormFactory so they can be used globally
+    // inject the JPa aPI and FormFactory so they can be used globally
     @Inject
     public AssignmentController(JPAApi jpaApi, FormFactory formFactory) {
         this.jpaApi = jpaApi;
         this.formFactory = formFactory;
     }
 
-    // returns a Hibernate session for database Transactions
+    /**
+     * Gets a Hibernate session from a JPa EntityManager. The session is used for all persistence operations
+     *
+     * @return a Hibernate session
+     */
     private Session getSession() {
         EntityManager entityManager = jpaApi.em();
         return (Session) entityManager.getDelegate();
     }
 
-    // list all the locations and assignments in the database
+    /**
+     * An action that renders an HTML view that lists all assignments in the database.
+     *
+     * @return a result for rendering assignments.html with a list of assignments.
+     */
     @Transactional
     @SuppressWarnings("unchecked")
     public Result list() {
@@ -61,7 +76,12 @@ public class AssignmentController extends Controller {
 
     }
 
-    // renders a form for capturing a new assignment
+    /**
+     * An action that renders a view containing a form for capturing a new assignment.
+     *
+     * @param locationId the ID of the location the assignment belongs too
+     * @return a result for rendering newassignment.html with an <code>assignmentForm</code>
+     */
     public Result newAssignment(int locationId) {
 
         Form<Assignment> assignmentForm = formFactory.form(Assignment.class);
@@ -71,7 +91,12 @@ public class AssignmentController extends Controller {
         return ok(newassignment.render(assignmentForm, locationId));
     }
 
-    // renders a from for displaying and editing an assignment's details
+    /**
+     * An action that renders a view containing a form for viewing or editing an assignment's details.
+     *
+     * @param id the ID of the assignment being viewed or edited
+     * @return a result for rendering assignment.html or null
+     */
     @Transactional
     public Result details(int id) {
         final Assignment assignment = getAssignmentById(id);
@@ -86,6 +111,15 @@ public class AssignmentController extends Controller {
         return ok(details.render(assignment, filledForm));
     }
 
+    /**
+     * Gets an assignment from the database based on its ID.
+     * <p>
+     *     This method uses an <code>Assignment's</code> id value,
+     *     to retrieve that assignment from the database.
+     * </p>
+     * @param id the ID of the assignment being requested
+     * @return an assignment object from the database
+     */
     private Assignment getAssignmentById(int id) {
         Session session = getSession();
 
@@ -95,7 +129,23 @@ public class AssignmentController extends Controller {
         return assignment;
     }
 
-    // saves a new assignment to the database using the form data
+    /**
+     * An action that saves an <code>assignment</code> to the database.
+     * <p>
+     *     This method saves an assignment to the database then
+     *     redirects back to the location details page for which
+     *     the assignment was created. Before the assignment is saved
+     *     location gets added to the assignment's location Set.
+     * </p>
+     * <p>
+     *     Successfully saving an assignment creates a flash message
+     *     that is shown to the user. If the form used to create the
+     *     assignment has errors, the user receives a flash message
+     *     stating the error.
+     * </p>
+     * @param locationId the ID of the location the assignment belongs to
+     * @return a redirect result back to the owning location's details page
+     */
     @Transactional
     public Result save(int locationId) {
         Form<Assignment> assignmentForm = formFactory.form(Assignment.class);
@@ -108,7 +158,7 @@ public class AssignmentController extends Controller {
         // create a new assignment from the form entries
         Assignment assignment = boundForm.get();
 
-        // save the new Assignment and get its id
+        // save the new assignment and get its id
         Session session = getSession();
         assignment.setLocation(session.get(Location.class, locationId));
         session.save(assignment);
@@ -119,7 +169,18 @@ public class AssignmentController extends Controller {
     }
 
 
-    // update an existing assignment
+    /**
+     * An action that updates an <code>Assignment</code> object based on submitted form data.
+     * <p>
+     *     This method retrieves information from a form, and uses
+     *     the form data to update an existing assignment. If there
+     *     are errors with the submitted form the user is notified.
+     *     The user is also notified via flash message that the
+     *     assignment was updated.
+     * </p>
+     * @param id the ID of the assignment being updated
+     * @return a redirect back to the list of assignments
+     */
     @Transactional
     public Result update(int id) {
         Assignment assignment = getAssignmentById(id);
@@ -148,7 +209,16 @@ public class AssignmentController extends Controller {
         return redirect(routes.AssignmentController.list());
     }
 
-    // delete an existing assignment
+    /**
+     * An action that deletes an <code>Assignment</code> from the database.
+     * <p>
+     *     after successful deletion of an assignment this method
+     *     returns a flash message alerting the user, then redirects
+     *     back to the list of assignments.
+     * </p>
+     * @param id the id of the assignment being deleted
+     * @return a redirect back to the list of assignments
+     */
     @Transactional
     public Result delete(int id) {
         final Assignment assignment = getAssignmentById(id);
@@ -164,7 +234,21 @@ public class AssignmentController extends Controller {
         return redirect(routes.AssignmentController.list());
     }
 
-    // render a form for adding volunteers to an assignment
+    /**
+     * An action that renders a form for searching for volunteers to add to an
+     * assignment.
+     * <p>
+     *     This method returns a form and a list of volunteers for
+     *     rendering via the addvolunteers.html template. The form
+     *     allows users to search for and add volunteers to an assignment.
+     *     Volunteers already associated with the assignment can also be
+     *     removed from the assignment via this template.
+     * </p>
+     * @param assignmentId the id of the assignment the volunteer is being
+     *                     assigned to
+     * @return  an ok http result along with a list of volunteers and a
+     *          search form for rendering
+     */
     @Transactional
     @SuppressWarnings("unchecked")
     public Result browseVolunteers(int assignmentId) {
@@ -184,7 +268,21 @@ public class AssignmentController extends Controller {
         return ok(addvolunteers.render(volunteerList, searchForm, assignment));
     }
 
-    // add a volunteer to an assignment
+    /**
+     * An action that creates a relationship between an <code>Assignment</code> object
+     * and a <code>Volunteer</code> object.
+     * <p>
+     *     This method gets both an assignment and a volunteer from the database,
+     *     then adds the volunteer to the assignment's Set of volunteers. after
+     *     saving the assignment an http redirect to the browseVolunteers()
+     *     route is returned.
+     * </p>
+     * @param assignmentId the ID of the assignment the volunteer is being
+     *                     assigned to.
+     * @param volunteerId the ID of the volunteer being assigned to the
+     *                    assignment
+     * @return a redirect result to the browseVolunteers() route
+     */
     @Transactional
     public Result addVolunteerToAssignment(int assignmentId, int volunteerId) {
 
@@ -200,7 +298,21 @@ public class AssignmentController extends Controller {
         return redirect(routes.AssignmentController.browseVolunteers(assignmentId));
     }
 
-    // remove a volunteer from an assignment
+    /**
+     * An action that deletes the relationship between an <code>Assignment</code> object and
+     * a <code>Volunteer</code> object.
+     * <p>
+     *     This method gets both an assignment and a volunteer from
+     *     the database, then removes the volunteer from the assignment's
+     *     Set of volunteers. after saving the assignment an http redirect
+     *     to the browseVolunteers() route is returned
+     * </p>
+     * @param assignmentId the ID of the assignment the volunteer is
+     *                     being removed from
+     * @param volunteerId the ID of the volunteer being removed from
+     *                    the assignment
+     * @return a redirect result to the browseVolunteers() route
+     */
     @Transactional
     public Result removeVolunteerFromAssignment(int assignmentId, int volunteerId) {
 
