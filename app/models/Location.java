@@ -5,6 +5,16 @@ import play.data.validation.Constraints;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Objects of the <code>Location</code> class represent
+ * a single Location in the database. <code>Location</code>
+ * objects are JPA Entities
+ * <p>
+ *     <code>Locations</code> have a One to Many relationship with
+ *     <code>Assignments</code>.
+ * </p>
+ */
+
 @Entity
 public class Location {
 

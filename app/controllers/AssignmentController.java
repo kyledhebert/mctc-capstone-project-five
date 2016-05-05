@@ -1,6 +1,6 @@
 package controllers;
 
-
+import com.google.inject.Inject;
 import models.Assignment;
 import models.Location;
 import models.Volunteer;
@@ -18,7 +18,7 @@ import views.html.assignments.assignments;
 import views.html.assignments.details;
 import views.html.assignments.newassignment;
 
-import javax.inject.Inject;
+
 import javax.persistence.EntityManager;
 import java.util.List;
 

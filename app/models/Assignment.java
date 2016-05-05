@@ -5,6 +5,17 @@ import play.data.validation.Constraints;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Objects of the <code>Assignment</code> class represent
+ * a single Assignment in the database. <code>Assignment</code>
+ * objects are JPA Entities
+ * <p>
+ *     <code>Assignments</code> have a Many to Many relationship with
+ *     <code>Volunteers</code>, and a Many to One relationship with
+ *     <code>Locations</code>.
+ * </p>
+ */
+
 @Entity
 public class Assignment {
 

@@ -61,7 +61,7 @@ public class LocationController extends Controller {
 
 
     /**
-     * An action that renders an HTML view that list all locations
+     * An action that renders an HTML view that lists all locations
      * in the database.
      *
      * @return A result for rendering locations.html with a list of locations.
@@ -97,7 +97,7 @@ public class LocationController extends Controller {
      * a locations's details.
      *
      * @param id The ID of the location being viewed or edited.
-     * @return A result for rendering details.html or null.
+     * @return A result for rendering locations.details.html or null.
      */
     @Transactional
     public Result details(int id) {

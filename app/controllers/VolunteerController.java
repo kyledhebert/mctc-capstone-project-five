@@ -23,6 +23,18 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Set;
 
+
+/**
+ * This controller manages persistence operations for <code>Volunteers</code>.
+ *
+ * This controller uses JPA and Hibernate to create, read, update
+ * and delete <code>Volunteers</code> using database transactions.
+ *
+ * @author Kyle D. Hebert
+ * @version 0.2
+ *
+ */
+
 public class VolunteerController extends Controller {
 
     private FormFactory formFactory;
@@ -54,7 +66,13 @@ public class VolunteerController extends Controller {
     }
 
 
-    // lists all volunteers in the database
+    /**
+     * An action that renders an HTML view that lists all
+     * volunteers in the database.
+     *
+     * @return A result for rendering volunteers.html with a list of
+     * volunteers.
+     */
     @Transactional
     @SuppressWarnings("unchecked")
     public Result list() {
@@ -71,7 +89,13 @@ public class VolunteerController extends Controller {
         return ok(volunteers.render(volunteerList, searchForm));
     }
 
-    // browses volunteers by first letter of last name
+    /**
+     * An Action that lists all of the volunteers whose name last
+     * name begins with the provided letter.
+     *
+     * @param letter The letter to search for last names starting with.
+     * @return A result for rendering volunteers.html with a list of volunteers.
+     */
     @Transactional
     @SuppressWarnings("unchecked")
     public Result browse(Character letter) {
@@ -90,14 +114,28 @@ public class VolunteerController extends Controller {
         return ok(volunteers.render(volunteerList, searchForm));
     }
 
-    // renders a form for capturing a new volunteer
+    /**
+     * An action that renders a view containing a form for capturing a new
+     * volunteer.
+     *
+     * @return A result for rendering newvolunteer.html
+     */
+
     public Result newVolunteer() {
         Form<Volunteer> volunteerForm = formFactory.form(Volunteer.class);
 
         return ok(newvolunteer.render(volunteerForm));
     }
 
-    // renders a form for displaying and editing a volunteers details
+
+    /**
+     * An action that renders a view containing a form for viewing or editing
+     * a volunteers's details.
+     *
+     * @param id The ID of the volunteer being viewed or edited.
+     * @return A result for rendering volunteers.details.html or null.
+     */
+
     @Transactional
     public Result details(int id) {
         final Volunteer volunteer = getVolunteerById(id);
@@ -111,17 +149,23 @@ public class VolunteerController extends Controller {
     }
 
 
-    public Volunteer getVolunteerById(int id) {
+    private Volunteer getVolunteerById(int id) {
         Session session = getSession();
 
         // gets the Volunteer from the database or null if not found
-        Volunteer volunteer = session.get(Volunteer.class, id);
+        return session.get(Volunteer.class, id);
 
-        return volunteer;
     }
 
 
-    // saves a new volunteer to the database using the form data
+    /**
+     * An action that saves a <code>Volunteer</code> to the database.
+     * <p>
+     *     This method saves a <code>Volunteer</code> to the database
+     *     before redirecting back to the list of all volunteers.
+     * </p>
+     * @return A result that redirects back to the list of volunteers.
+     */
     @Transactional
     public Result save() {
         Form<Volunteer> volunteerForm = formFactory.form(Volunteer.class);
@@ -147,7 +191,21 @@ public class VolunteerController extends Controller {
     }
 
 
+    /**
+     * An action that updates a <code>Volunteer</code> object based on
+     * fields submitted via a form.
+     * <p>
+     *     This method retrieves information from a form, and uses
+     *     the form data to update an existing location. If there
+     *     are errors with the submitted form the user is notified.
+     *     The user is also notified via flash message that the
+     *     volunteer was updated.
+     * </p>
 
+     * @param id The ID of the volunteer being updated.
+     * @return A result that redirects back to the list of volunteers,
+     * or re-renders the form if there were errors.
+     */
     @Transactional
     public Result update(int id) {
         Volunteer volunteer = getVolunteerById(id);
@@ -187,6 +245,12 @@ public class VolunteerController extends Controller {
 
     }
 
+    /**
+     * An action that deletes a <code>Volunteer</code> from the database.
+     *
+     * @param id The ID of the volunteer being deleted.
+     * @return A result that redirects back to the list of volunteers.
+     */
 
     @Transactional
     public Result delete(int id) {
@@ -205,6 +269,7 @@ public class VolunteerController extends Controller {
         return redirect(routes.VolunteerController.list());
     }
 
+
     private void removeVolunteerFromAssignments(Volunteer volunteer) {
 
         Set<Assignment> assignments = volunteer.getAssignments();
@@ -214,6 +279,13 @@ public class VolunteerController extends Controller {
         }
     }
 
+    /**
+     * An action that searches for a <code>Volunteer</code> by first name.
+     *
+     * @return A result for rendering volunteers.html with a list of
+     * volunteers and a the search form.
+     *
+     */
     @Transactional
     @SuppressWarnings("unchecked")
     public Result searchFirstName() {
@@ -235,6 +307,14 @@ public class VolunteerController extends Controller {
         return ok(volunteers.render(volunteerList, searchForm));
     }
 
+    /**
+     * An action that searches for a <code>Volunteer</code> by last name.
+     *
+     * @return A result for rendering volunteers.html with a list of
+     * volunteers and a the search form.
+     *
+     */
+
     @Transactional
     @SuppressWarnings("unchecked")
     public Result searchLastName(){
@@ -255,7 +335,5 @@ public class VolunteerController extends Controller {
 
         return ok(volunteers.render(volunteerList, searchForm));
     }
-
-
 
 }

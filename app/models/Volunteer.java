@@ -6,6 +6,15 @@ import play.data.validation.Constraints;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Objects of the <code>Volunteer</code> class represent
+ * a single Volunteer in the database. <code>Volunteer</code>
+ * objects are JPA Entities
+ * <p>
+ *     <code>Volunteers</code> have a Many to Many relationship with
+ *     <code>Assignments</code>.
+ * </p>
+ */
 @Entity
 public class Volunteer {
 
