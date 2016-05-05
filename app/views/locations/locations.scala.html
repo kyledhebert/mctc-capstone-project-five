@@ -1,11 +1,13 @@
 @(locations: List[Location])
 
-@main("Location List") {
-    <h2>Locations</h2>
+@main("Assignment List") {
+    <h2>Assignments</h2>
     @if(locations.isEmpty) {
-        <p class="help-block">There are no locations in the database. Use the button below to add locations</p>
+        <p class="help-block">There must be at least one location before you can add an assignment.
+            Use the button below to add a location.</p>
     } else {
-        <p class="help-block">Click on a location to view assignments for that location.</p>
+        <p class="help-block">Click on a location to manage assignments for that location.</p>
+        <p class="help-block"><a href="@routes.AssignmentController.list()">View all assignments</a></p>
         <table class="table table-striped">
             <thead>
                 <tr>

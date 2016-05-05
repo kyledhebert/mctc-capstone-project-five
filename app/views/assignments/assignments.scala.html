@@ -1,35 +1,39 @@
 @(assignments: List[Assignment])
 
-@main("Assignment List") {
+@main("All Assignments") {
     <h2>All Assignments</h2>
-    @*<a href="@routes.AssignmentController.newAssignment()" class="btn btn-primary">*@
-    @*<span class="glyphicon glyphicon-plus"></span> New Assignment</a>*@
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Assignment Name</th>
-                <th>Location</th>
-            </tr>
-        </thead>
-        <tbody>
-        @for(assignment <- assignments) {
-            <tr>
-                <td><a href="@routes.AssignmentController.details(assignment.getId)">
-                @assignment.getAssignmentName
-                </a>
-                </td>
-                <td><a href="@routes.LocationController.details(assignment.getLocation.getId)">
+    @if(assignments.isEmpty) {
+        <p class="help-block">There are no assignments in the database.</p>
+        <p class="help-block"><a href="@routes.LocationController.list()">View the location list</a> to add
+        an assignment.</p>
+    } else {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Assignment Name</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(assignment <- assignments) {
+                <tr>
+                    <td><a href="@routes.AssignmentController.details(assignment.getId)">
+                    @assignment.getAssignmentName
+                    </a>
+                    </td>
+                    <td><a href="@routes.LocationController.details(assignment.getLocation.getId)">
                     @assignment.getLocation.getName
-                </a>
-                </td>
+                    </a>
+                    </td>
 
-                <td><a href="@routes.AssignmentController.details(assignment.getId)">
-                    <span class="glyphicon glyphicon-pencil"></span></a>
-                    <a href="@routes.AssignmentController.delete(assignment.getId)">
-                        <span class="glyphicon glyphicon-trash"></span></a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+                    <td><a href="@routes.AssignmentController.details(assignment.getId)">
+                        <span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="@routes.AssignmentController.delete(assignment.getId)">
+                            <span class="glyphicon glyphicon-trash"></span></a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
 }
