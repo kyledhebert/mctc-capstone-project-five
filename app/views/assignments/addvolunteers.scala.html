@@ -1,5 +1,4 @@
 @(volunteers: List[Volunteer], searchForm: DynamicForm, assignment: Assignment)
-@import b3.inline.fieldConstructor
 
     @main("Add Volunteers") {
     <h2>@assignment.getAssignmentName</h2> <a href="@routes.AssignmentController.details(assignment.getId)">(back to details)</a>

@@ -1,12 +1,9 @@
 package models;
 
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity

@@ -15,17 +15,13 @@ import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import views.html.volunteers.details;
 import views.html.volunteers.newvolunteer;
 import views.html.volunteers.volunteers;
 
-
 import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Set;
 
 public class VolunteerController extends Controller {
 

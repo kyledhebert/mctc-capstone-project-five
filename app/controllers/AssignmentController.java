@@ -13,16 +13,14 @@ import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import java.util.List;
-
 import views.html.assignments.addvolunteers;
 import views.html.assignments.assignments;
 import views.html.assignments.details;
 import views.html.assignments.newassignment;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import java.util.List;
 
 /**
  * This controller manages persistence operations for <code>Assignments</code>.

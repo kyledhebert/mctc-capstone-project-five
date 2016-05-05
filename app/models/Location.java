@@ -1,14 +1,9 @@
 package models;
 
-import org.hibernate.annotations.*;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Location {

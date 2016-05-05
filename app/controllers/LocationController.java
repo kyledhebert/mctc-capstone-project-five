@@ -10,9 +10,8 @@ import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import views.html.locations.locations;
 import views.html.locations.details;
+import views.html.locations.locations;
 import views.html.locations.newlocation;
 
 import javax.persistence.EntityManager;
