@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.inject.Inject;
+import models.Assignment;
 import models.Location;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -223,6 +224,35 @@ public class LocationController extends Controller {
         flash("success", String.format("Successfully deleted location %s", location));
         return redirect(routes.LocationController.list());
 
+    }
+
+    /**
+     * An action that deletes a <code>Assignment</code> from the database.
+     *
+     * @param locationId The ID of the location the assignment belongs to.
+     * @param assignmentId The ID of the assignment the location belongs to.
+     * @return A <code>Result</code> that redirects back to the assignment
+     * details view.
+     */
+    @Transactional
+    public Result deleteAssignment(int locationId, int assignmentId) {
+
+        Assignment assignment = getAssignmentById(assignmentId);
+
+        Session session = getSession();
+        session.delete(assignment);
+
+        return redirect(routes.LocationController.details(locationId));
+
+    }
+
+    private Assignment getAssignmentById(int id) {
+        Session session = getSession();
+
+        // gets the assignment from the database or null if not found
+        Assignment assignment = session.get(Assignment.class, id);
+
+        return assignment;
     }
 
 }

@@ -31,14 +31,14 @@
                             Manage Volunteers</a></td>
                         <td><a href="@routes.AssignmentController.details(assignment.getId)">
                             <span class="glyphicon glyphicon-pencil"></span></a>
-                            <a href="@routes.AssignmentController.delete(assignment.getId)">
+                            <a href="@routes.LocationController.deleteAssignment(location.getId, assignment.getId)">
                             <span class="glyphicon glyphicon-trash"></span></a> </td>
                     </tr>
                 }
             }
             </tbody>
         </table>
-    <a href="@routes.AssignmentController.newAssignment(location.getId)">New Assignment</a>
+    <a class="add-link" href="@routes.AssignmentController.newAssignment(location.getId)">New Assignment</a>
 
 
 }
