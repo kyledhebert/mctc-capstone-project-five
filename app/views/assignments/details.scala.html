@@ -3,6 +3,7 @@
 
 
     @main("Assignment Details") {
+        <a class="small" href="@routes.LocationController.details(assignment.getLocation.getId)"><< Back to @assignment.getLocation.getName</a>
         <h1>Assignment Details</h1>
         @b3.form(routes.AssignmentController.update(assignment.getId)) {
             <legend>@assignmentForm("assignmentName").valueOr("New")</legend>
