@@ -1,5 +1,5 @@
 @(assignmentForm: Form[Assignment], locationId: Integer)
-@import b3.vertical.fieldConstructor
+  @implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-8") }
 
 
 @main("Assignment form") {

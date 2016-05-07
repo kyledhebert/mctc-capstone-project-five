@@ -1,5 +1,5 @@
 @(assignment: Assignment, assignmentForm: Form[Assignment])
-    @import b3.vertical.fieldConstructor
+    @implicitFieldConstructor = @{ b3.horizontal.fieldConstructor("col-md-2", "col-md-8") }
 
 
     @main("Assignment Details") {
@@ -7,7 +7,7 @@
         @b3.form(routes.AssignmentController.update(assignment.getId)) {
             <legend>@assignmentForm("assignmentName").valueOr("New")</legend>
             @b3.text(assignmentForm("assignmentName"), '_label -> "Assignment Name")
-            <input type="submit" class="btn btn-primary" value="Save">
+            @b3.submit('class -> "btn btn-primary") { Save }
 
         }
 
