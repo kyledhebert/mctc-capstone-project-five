@@ -13,12 +13,11 @@ Volunteer coordinators will be able to:
  - assign volunteers to assignments
  - and post messages to the volunteers (coming soon)
 
- ## Running the App
+## Running the App
+The easiest way to run the app is through [Lightbend Activator](https://www.lightbend.com/activator/docs).
 
- The easiest way to run the app is through [Lightbend Activator](https://www.lightbend.com/activator/docs).
+On a Mac this can be done via homebrew using `brew install activator`. Instructions for other operating systems can be found on the [Play Framework website.](https://www.playframework.com/documentation/2.5.x/Installing)
 
- On a Mac this can be done via homebrew using `brew install activator`. Instructions for other operating systems can be found on the [Play Framework website.](https://www.playframework.com/documentation/2.5.x/Installing)
+After Activator is installed navigate to the root directory of the application and run `activator run`. This will compile the project and start a server at <http://localhost:9000>
 
- After Activator is installed navigate to the root directory of the application and run `activator run`. This will compile the project and start a server at <http://localhost:9000>
-
- This version uses a H2 in-memory database. The database will be empty the first time the application is run, and will H2 will drop the database when there are no more connections to it.
+This version uses a H2 in-memory database. The database will be empty the first time the application is run, and will H2 will drop the database when there are no more connections to it.
