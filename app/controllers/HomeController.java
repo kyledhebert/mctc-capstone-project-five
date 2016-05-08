@@ -30,7 +30,7 @@ public class HomeController extends Controller {
     }
 
     // methods for retrieving stats from the database
-    
+
     private Integer getVolunteerCount() {
 
         Session session = getSession();
