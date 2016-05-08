@@ -87,4 +87,5 @@ target
 /.settings
 /RUNNING_PID
 
+/.env
 .DS_Store
