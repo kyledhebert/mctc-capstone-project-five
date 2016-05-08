@@ -29,6 +29,8 @@ public class HomeController extends Controller {
         return (Session) entityManager.getDelegate();
     }
 
+    // methods for retrieving stats from the database
+    
     private Integer getVolunteerCount() {
 
         Session session = getSession();
